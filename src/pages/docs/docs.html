@@ -1,0 +1,49 @@
+<!--
+  Generated template for the DocsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Documentos Subidos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list >
+    <ion-item no-lines (click)="toggleGroup(1)" [ngClass]="{active: isGroupShown(1)}">
+      <ion-icon name="folder-open" item-left large [name]="isGroupShown(1) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+      <h2>Fotos</h2>
+    </ion-item>
+    <div *ngIf="isGroupShown(1)">
+      <ion-item *ngFor="let foto of fotos;" no-lines class="margin-left">
+        <ion-icon name="image" item-left large></ion-icon>
+        <h2>{{foto.ruta_anexo.split("/").pop()}} - {{foto.fecha_incorporacion}}</h2>
+      </ion-item>
+    </div>
+    <ion-item no-lines (click)="toggleGroup(2)" [ngClass]="{active: isGroupShown(2)}">
+      <ion-icon name="folder-open" item-left large [name]="isGroupShown(2) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+      <h2>Videos</h2>
+    </ion-item>
+    <div *ngIf="isGroupShown(2)">
+      <ion-item no-lines *ngFor="let video of videos;" class="margin-left">
+        <ion-icon name="videocam" item-left large></ion-icon>
+        <h2>{{video.ruta_anexo.split("/").pop()}} - {{video.fecha_incorporacion}}</h2>
+      </ion-item>
+    </div>
+    <ion-item no-lines (click)="toggleGroup(3)" [ngClass]="{active: isGroupShown(3)}">
+      <ion-icon name="folder-open" item-left large [name]="isGroupShown(3) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+      <h2>Documentos</h2>
+    </ion-item>
+    <div *ngIf="isGroupShown(3)">
+      <ion-item no-lines class="margin-left" *ngFor="let documento of documentos;">
+        <ion-icon name="document" item-left large></ion-icon>
+        <h2>{{documento.ruta_anexo.split("/").pop()}} - {{documento.fecha_incorporacion}}</h2>
+      </ion-item>
+    </div>
+	</ion-list>
+</ion-content>

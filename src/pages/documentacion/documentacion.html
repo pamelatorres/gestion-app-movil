@@ -1,0 +1,63 @@
+<!--
+  Generated template for the DocumentacionPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Documentacion</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+	  <ion-item-sliding>
+	    <ion-item (click)="presentToast('Deslice hacia la izquierda para ver menú')">
+	      <ion-icon name="logo-youtube" item-left large color="youtube" class="icon-padding"></ion-icon>
+	      <h2>Subir video</h2>
+	    </ion-item>
+	    <ion-item-options side="right">
+	      <button ion-button color="primary">
+	        <ion-icon name="document" item-left small style="font-size: 25px;"></ion-icon>
+	        Desde archivo
+	      </button>
+	      <button ion-button color="secondary">
+	        <ion-icon (click)="captureVideo()" name="videocam" item-left small style="font-size: 25px;"></ion-icon>
+	        Desde camara
+	      </button>
+	    </ion-item-options>
+	  </ion-item-sliding>
+	  <ion-item>
+	  	<ion-icon (click)="subirDocumentacion()" name="folder-open" item-left large class="icon-padding"></ion-icon>
+	    <h2>Subir documento</h2>
+	  </ion-item>
+	  <ion-item (click)="describirIncidenteAlert()">
+	  	<ion-icon name="text" item-left large class="icon-padding"></ion-icon>
+	    <h2>Describir</h2>
+	  </ion-item>
+	  <ion-item-sliding>
+	    <ion-item (click)="presentToast('Deslice hacia la izquierda para ver menú')">
+	      <ion-icon name="camera" item-left large class="icon-padding"></ion-icon>
+	      <h2>Tomar fotografías</h2>
+	    </ion-item>
+	    <ion-item-options side="right">
+	      <button ion-button color="primary" (click)="takePicture(this.camera.PictureSourceType.PHOTOLIBRARY)">
+	        <ion-icon name="document" item-left small style="font-size: 25px;"></ion-icon>
+	        Desde archivo
+	      </button>
+	      <button ion-button color="secondary" (click)="takePicture(this.camera.PictureSourceType.CAMERA)">
+	        <ion-icon name="camera" item-left small style="font-size: 25px;"></ion-icon>
+	        Desde camara
+	      </button>
+	    </ion-item-options>
+	  </ion-item-sliding>
+	  <ion-item (click)="verDocumentacion()">
+	  	<ion-icon name="document" item-left large class="icon-padding"></ion-icon>
+	    <h2>Ver documentación</h2>
+	  </ion-item>
+	</ion-list>
+</ion-content>

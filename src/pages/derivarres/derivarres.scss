@@ -1,0 +1,16 @@
+page-derivarres {
+	.ion-icon-large {
+    font-size: 30px;
+  }
+  .bottom-buttons{
+  	position: absolute; 
+		bottom: 10px; 
+		left: 10px; 
+		right: 10px; 
+		z-index: 99;
+  }
+  .button-width{
+  	width: 50%;
+  	float: left;
+  }
+}

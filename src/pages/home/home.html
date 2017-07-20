@@ -1,18 +1,22 @@
-<ion-header>
-  <ion-navbar>
+<ion-header >
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Inicio</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content text-center class="icons-basic-page">
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <ion-row>
+    <ion-col *ngFor="let clasificacion of clasificaciones" col-6>
+      <button ion-button icon-only (click)="abrirResponsabilidades(clasificacion.id_clasificacion)" class="button-width">
+        <ion-icon name="{{clasificacion.nombre_icono}}"></ion-icon>
+      </button>
+      <h5>{{clasificacion.nombre}}</h5>
+    </ion-col>
+  </ion-row>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
 </ion-content>
+

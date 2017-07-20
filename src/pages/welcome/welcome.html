@@ -1,0 +1,31 @@
+<!--
+  Generated template for the WelcomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Bienvenido</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list class="center">
+    <ion-list-header>
+      Bienvenido
+    </ion-list-header>
+
+    <button ion-item (click)="irA('RegisterPage')">
+      <ion-icon name="send" item-start></ion-icon>
+      Registro
+    </button>
+    <button ion-item (click)="irA('LoginPage')">
+      <ion-icon name="send" item-start></ion-icon>
+      Iniciar sesión
+    </button>
+  </ion-list>
+</ion-content>

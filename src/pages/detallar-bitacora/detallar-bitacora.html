@@ -1,0 +1,40 @@
+<!--
+  Generated template for the DetallarBitacoraPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Detallar bitacora</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div>
+    <form (ngSubmit)="guardar()" #detallarForm="ngForm">
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
+            
+            <ion-item>
+              <!-- Cambiar el alto del textarea -->
+              <ion-textarea placeholder="Detalle de la bitacora" name="observacion" [(ngModel)]="this.observacion" required></ion-textarea>
+            </ion-item>
+            
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col class="signup-col">
+          <button ion-button class="submit-btn" full type="submit" [disabled]="!detallarForm.form.valid">Guardar</button>
+        </ion-col>
+      </ion-row>
+      
+    </form>
+  </div>
+</ion-content>

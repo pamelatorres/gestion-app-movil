@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "816727488138",
+    "firebase_url": "https://gestion-municipio.firebaseio.com",
+    "project_id": "gestion-municipio",
+    "storage_bucket": "gestion-municipio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816727488138:android:e7d363d6e859c7e9",
+        "android_client_info": {
+          "package_name": "com.modulonet.gestion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816727488138-kfq19ttajjg03ef7v5ibtgt455m4si20.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.modulonet.gestion",
+            "certificate_hash": "c8ba69416c73801693197999397ee0b3211a7536"
+          }
+        },
+        {
+          "client_id": "816727488138-hhnveutqgfjsm1rsskvnp0squ2gl31ct.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTafrMoOpIxzGlOgeHVWHY687R7WlWsFI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816727488138-hhnveutqgfjsm1rsskvnp0squ2gl31ct.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
