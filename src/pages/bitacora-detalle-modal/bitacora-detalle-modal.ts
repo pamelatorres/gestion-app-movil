@@ -14,13 +14,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class BitacoraDetalleModalPage {
 
+  titulo:string;
   detalle:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.detalle = this.navParams.get('detalle');
+    this.titulo = this.navParams.get('titulo');
   }
 
   ionViewDidLoad() {
   }
-
+  atras(){
+    this.navCtrl.pop();
+  }
 }

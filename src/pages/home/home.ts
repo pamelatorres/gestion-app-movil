@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { Http } from '@angular/http';
-import { UrlProvider } from '../../providers/url/url';
-import 'rxjs/add/operator/catch';
-
+import { IonicPage, NavController } from 'ionic-angular';
 /**
  * Generated class for the HomePage page.
  *
@@ -19,32 +15,11 @@ export class HomePage {
   clasificaciones: any;
   clasificacion: any;
 
-  constructor(public navCtrl: NavController, 
-    public http: Http, 
-    private url:UrlProvider,
-    private toastCtrl: ToastController ) {
-
-    this.getClasificaciones();
+  constructor(public navCtrl: NavController ) {
+  
   }
 
-  getClasificaciones(){
-    let query = this.http.get(this.url.url + 'api/v1/clasificaciones');
-      query.subscribe(data => {
-          this.clasificaciones = data.json();
-      });
-      query.catch(this.handleError);
+  irA(page){
+    this.navCtrl.push(page);
   }
-
-  private handleError(error:any): Promise<any>{
-    console.error('Ha acurrido un error', error);
-    return Promise.reject(error.message || error);
-  }
-
-  abrirResponsabilidades(name:string){
-    //console.log(name);
-    this.navCtrl.push('ResponsabilidadesPage',{
-      clasificacion: name
-    });
-  }
-
 }

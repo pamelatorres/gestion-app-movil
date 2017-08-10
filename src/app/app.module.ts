@@ -11,25 +11,30 @@ import { HttpModule } from '@angular/http';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
 import { Geolocation } from '@ionic-native/geolocation';
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
+import { Camera } from '@ionic-native/camera';
+import { Transfer } from '@ionic-native/transfer';
 import { UrlProvider } from '../providers/url/url';
 import { FileChooser } from '@ionic-native/file-chooser';
-import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture';
+import { MediaCapture } from '@ionic-native/media-capture';
 import { CalendarModule } from 'angular-calendar';
 import { MaterialIconsModule } from 'ionic2-material-icons';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { IonicStorageModule } from '@ionic/storage';
 import { LOCALE_ID } from '@angular/core';
 import { DatePicker } from '@ionic-native/date-picker';
-import { Firebase } from '@ionic-native/firebase';
-
+import { FCM } from '@ionic-native/fcm';
+import { NgCalendarModule } from 'ionic2-calendar';
+import { PersonasDataProvider } from '../providers/personas-data/personas-data';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { GoogleMaps } from '@ionic-native/google-maps';
+import { Ionic2RatingModule } from 'ionic2-rating';
 
 @NgModule({
   declarations: [
     MyApp
   ],
   imports: [
+    NgCalendarModule,
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp,{
@@ -38,7 +43,8 @@ import { Firebase } from '@ionic-native/firebase';
     }),
     CalendarModule.forRoot(),
     MaterialIconsModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    Ionic2RatingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -59,7 +65,11 @@ import { Firebase } from '@ionic-native/firebase';
     MediaCapture,
     AuthServiceProvider,
     DatePicker,
-    Firebase
+    FCM,
+    PersonasDataProvider,
+    LocalNotifications,
+    GoogleMaps,
+    Ionic2RatingModule
   ]
 })
 export class AppModule {}

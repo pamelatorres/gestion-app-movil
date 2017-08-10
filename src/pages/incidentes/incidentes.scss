@@ -1,4 +1,4 @@
-.icons-basic-page {
+incidentes-page {
   ion-icon {
     font-size: 50px;
   }
@@ -18,4 +18,16 @@
   button {
     padding: 40px !important;
   }
+  .border{
+    border: solid 1px !important;
+    border-color: #bdbdbd !important;
+    border-radius: 2px !important;
+    margin-bottom: 5px !important;
+  }
+}
+.border{
+  border: solid 1px !important;
+  border-color: #bdbdbd !important;
+  border-radius: 2px !important;
+  margin-bottom: 5px !important;
 }

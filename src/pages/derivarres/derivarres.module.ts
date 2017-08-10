@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
+import { PipesModule } from '../../app/pipes.module';
 import { DerivarresPage } from './derivarres';
 
 @NgModule({
@@ -8,6 +9,7 @@ import { DerivarresPage } from './derivarres';
   ],
   imports: [
     IonicPageModule.forChild(DerivarresPage),
+    PipesModule
   ],
   exports: [
     DerivarresPage

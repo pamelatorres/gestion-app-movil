@@ -7,16 +7,22 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content text-center class="icons-basic-page">
+<ion-content>
+  <ion-card class="logo">
 
-  <ion-row>
-    <ion-col *ngFor="let clasificacion of clasificaciones" col-6>
-      <button ion-button icon-only (click)="abrirResponsabilidades(clasificacion.id_clasificacion)" class="button-width">
-        <ion-icon name="{{clasificacion.nombre_icono}}"></ion-icon>
-      </button>
-      <h5>{{clasificacion.nombre}}</h5>
-    </ion-col>
-  </ion-row>
-
+    <ion-card-content no-padding>
+      <img src="assets/img/logo2.png">
+    </ion-card-content>
+  
+  </ion-card>
+  <ion-list class="home-buttons">
+    <button ion-item (click)="irA('ClasificaionesPage')">
+      <ion-icon name="send" item-start></ion-icon>
+      Informar Incidente
+    </button>
+    <button ion-item (click)="irA('IncidentesPage')">
+      <ion-icon name="send" item-start></ion-icon>
+      Incidentes informado
+    </button>
+  </ion-list>
 </ion-content>
-

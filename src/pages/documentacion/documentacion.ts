@@ -66,17 +66,15 @@ export class DocumentacionPage {
   }
 
   presentToast(title) {
-	  let toast = this.toastCtrl.create({
-	    message: title,
-	    duration: 3000,
-	    position: 'bottom'
-	  });
-
-	  toast.onDidDismiss(() => {
-	    //console.log('Dismissed toast');
-	  });
-
-	  toast.present();
+	  this.alertCtrl.create({
+	    title:'Documentación',
+      subTitle: title,
+      buttons:[
+        {
+          text:'Aceptar'
+        }
+      ]
+	  }).present();
 	}
 
 	describirIncidenteAlert() {
@@ -124,19 +122,19 @@ export class DocumentacionPage {
       	content: 'Subiendo documentación'
     	});
     	this.loading.present();
-	  	this.uploadPhoto(imagePath);
+	  	this.uploadPhoto(imagePath,'foto');
 	  }, (err) => {
 	  	console.log(JSON.stringify(err));
 	  });
 	}
 
-  private uploadPhoto(imageFileUri: any): void {
+  private uploadPhoto(imageFileUri: any, tipo:string): void {
     this.file.resolveLocalFilesystemUrl(imageFileUri)
-      .then(entry => (<FileEntry>entry).file(file => this.readFile(file)))
+      .then(entry => (<FileEntry>entry).file(file => this.readFile(file,tipo)))
       .catch(err => this.presentToast(err));
   }
 
-  private readFile(file: any) {
+  private readFile(file: any, tipo) {
     const reader = new FileReader();
     reader.onloadend = () => {
       const formData = new FormData();
@@ -145,6 +143,7 @@ export class DocumentacionPage {
       formData.append('file', imgBlob, file.name);
       formData.append('id_incidente',this.incidente);
       formData.append('id_persona_anexo',this.user.id_usuario);
+      formData.append('tipo_anexo',tipo);
       formData.append('descripcion_anexo','');
       this.postData(formData);
     };
@@ -187,7 +186,8 @@ export class DocumentacionPage {
 		let describir = {
 			id_incidente: this.incidente,
 			id_persona_anexo: this.user.id_usuario,
-			descripcion_anexo: data['descripcion']
+			descripcion_anexo: data['descripcion'],
+      tipo_anexo: 'texto'
 		};
 		this.http.post(this.url.url + 'api/v1/documentacion', JSON.stringify(describir))
 			.subscribe(data => {
@@ -222,7 +222,7 @@ export class DocumentacionPage {
   	    	content: 'Subiendo documentación'
 	    	});
     		this.loading.present();
-    		this.uploadPhoto(data[0]['fullPath']);
+    		this.uploadPhoto(data[0]['fullPath'],'video');
     	},
     	(err: CaptureError) => console.error(err)
   	);

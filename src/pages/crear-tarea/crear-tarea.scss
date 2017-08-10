@@ -1,0 +1,28 @@
+page-crear-tarea {
+  .spinner-container {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+  .icon-large{
+    color: #8bc34a;
+    font-size: 60px;
+    //margin-left: -25px !important;
+    //position: absolute;
+    //margin-top: 0px !important;
+    margin-right: 20px !important;
+  }
+  .next-button{
+    position: absolute; 
+    bottom: 10px; 
+    left: 10px; 
+    right: 10px; 
+    z-index: 99;
+  }
+  .nombre-persona{
+    font-weight: bold;
+  }
+  .cargo-persona, .departamento-persona{
+    font-style: italic;
+  }
+}

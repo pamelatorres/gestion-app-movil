@@ -19,10 +19,16 @@
       <ion-row>
         <ion-col>
           <ion-list inset>
+
+            <ion-item>
+              <ion-label floating>Título de la Bitacora</ion-label>
+              <ion-input  name="titulo" [(ngModel)]="this.titulo" max="50" min="10" required></ion-input>
+            </ion-item>
             
             <ion-item>
               <!-- Cambiar el alto del textarea -->
-              <ion-textarea placeholder="Detalle de la bitacora" name="observacion" [(ngModel)]="this.observacion" required></ion-textarea>
+              <ion-label floating>Detalle de la Bitacora</ion-label>
+              <ion-textarea  name="observacion" [(ngModel)]="this.observacion" required></ion-textarea>
             </ion-item>
             
           </ion-list>

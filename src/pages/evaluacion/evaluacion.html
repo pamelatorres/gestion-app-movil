@@ -1,0 +1,94 @@
+<!--
+  Generated template for the EvaluacionPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Evaluacion</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-content no-padding *ngIf="puedeMostrarControles">
+      <h3>{{titulo}}</h3>
+      <ion-row class="detalle-eval">
+        <ion-col>
+          <p text-justify>{{detalle}}</p>
+          <br>
+          <div align="center">
+            <rating
+              *ngIf="puedeMostrarEstrellas"
+              [(ngModel)]="estrellas"
+              readOnly="false"
+              max="5"
+              emptyStarIconName="star-outline"
+              halfStarIconName="star-half"
+              starIconName="star"
+              nullable="false">
+            </rating>
+          </div>
+          <ion-list radio-group *ngIf="puedeMostrarAccion" [(ngModel)]="accion">
+            <ion-item>
+              <ion-label>Si</ion-label>
+              <ion-radio value="true"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>No</ion-label>
+              <ion-radio value="false"></ion-radio>
+            </ion-item>
+          </ion-list>
+          <ion-list *ngIf="puedeMostarPorcentaje">
+            <ion-item>
+              <ion-input type="number" placeholder="%" [(ngModel)]="porcentaje" values="10"></ion-input>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>    
+    <ion-card-content *ngIf="puedeMostrarResultadoFinal">
+      <ion-list-header>
+        Tabla de evaluación
+      </ion-list-header>    
+      <ion-list>
+        <ion-item-group>
+          <ion-item>
+            Solución {{puntosSolucion}} puntos
+          </ion-item>
+          <ion-item>
+            Calidad {{puntosCalidad}} puntos
+          </ion-item>
+          <ion-item>
+            Tiempo {{puntosTiempo}} puntos
+          </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item item-end>
+            Total {{total}}
+          </ion-item>
+        </ion-item-group>
+      </ion-list>
+    </ion-card-content>
+
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <button ion-button outline (click)="atras()">Atras</button>
+        </ion-col>
+        <ion-col>
+          <button *ngIf="puedeMostrarBotonGuardar" ion-button outline (click)="guardarEvaluacion()">Guardar</button>
+          <button *ngIf="!puedeMostrarBotonGuardar" ion-button outline (click)="siguiente()">Siguiente</button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <progress-bar [progress]="cargarProgreso"></progress-bar>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>

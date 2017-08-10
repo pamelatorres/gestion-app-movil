@@ -18,6 +18,7 @@ import { UrlProvider } from '../../providers/url/url';
 })
 export class AgendarPage {
 
+  titulo:string = null;
   descripcion:string = null;
   fecha_termino_hora:any = null;
   fecha_termino_dia:any = null;
@@ -39,18 +40,20 @@ export class AgendarPage {
   }
 
   guardar(){
-    if (this.label_fecha_inicio == null || this.label_fecha_termino == null || this.descripcion == null) {
+    if (this.label_fecha_inicio == null || this.label_fecha_termino == null || this.descripcion == null || this.titulo == null) {
       this.presentToast('Todos los campos son requeridos');
     }else{
       let data = {
         id_bitacora: this.navParams.get('id_bitacora'),
+        titulo: this.titulo,
         descripcion_agenda: this.descripcion,
         fecha_inicio: this.label_fecha_inicio,
         fecha_termino: this.label_fecha_termino
       };
+      console.log(data);
       this.http.post(this.url.url + 'api/v1/Agenda', JSON.stringify(data))
         .subscribe(data => {
-          console.log(data && data.json() == true);
+          console.log(data);
           if (data.status == 201) {
             this.navCtrl.pop();
             this.presentToast('Evento guardado correntamente');

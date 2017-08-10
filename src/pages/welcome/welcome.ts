@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/catch';
-import { Firebase } from '@ionic-native/firebase';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 
@@ -22,7 +21,6 @@ export class WelcomePage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private storage:Storage,
-    private firebase: Firebase,
     private auth:AuthServiceProvider) {
   }
 

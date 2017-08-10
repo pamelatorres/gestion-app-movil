@@ -1,0 +1,22 @@
+<ion-header >
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Área de Servicio</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content text-center class="icons-basic-page">
+
+  <ion-row>
+    <ion-col *ngFor="let clasificacion of clasificaciones" col-6>
+      <button ion-button icon-only (click)="abrirResponsabilidades(clasificacion.id_clasificacion)" class="button-width">
+        <ion-icon name="{{clasificacion.nombre_icono}}"></ion-icon>
+      </button>
+      <h5>{{clasificacion.nombre}}</h5>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+

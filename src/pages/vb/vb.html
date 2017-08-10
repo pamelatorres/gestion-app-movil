@@ -17,21 +17,21 @@
 	<ion-list>
 		<ion-list-header>
 			<ion-icon name="checkbox" large item-left></ion-icon>
-			<h2>Reporte 02-07-2017 4:25</h2>
-			<p>Responsable Gary Meliman</p>	
+			<h2>Solicitar visto bueno</h2>
 		</ion-list-header>
+    <ion-item>
+      <ion-label floating>Monto a solicitar</ion-label>
+      <ion-input type="number" [(ngModel)]="this.monto"></ion-input>
+    </ion-item>
 		<ion-item>
-	    <ion-textarea placeholder="Descripción de la solicitud"></ion-textarea>
-		</ion-item>		
+      <ion-label floating>Descripción de la solicitud</ion-label>
+	    <ion-textarea [(ngModel)]="this.detalle"></ion-textarea>
+		</ion-item>
+    <ion-item>
+      <button [disabled]="!this.detalle" ion-button full large (click)="guardar()">
+        <ion-icon name="send" item-start></ion-icon>
+        Guardar
+      </button> 
+    </ion-item>	
 	</ion-list>
-	<div class="bottom-buttons">
-    <button ion-item item-end>
-      <ion-icon name="checkmark" item-start></ion-icon>
-      Estado pendiente
-    </button>
-    <button ion-item item-start>
-      <ion-icon name="send" item-start></ion-icon>
-      Guardar
-    </button>
-	</div>
 </ion-content>

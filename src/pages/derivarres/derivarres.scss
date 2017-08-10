@@ -13,4 +13,23 @@ page-derivarres {
   	width: 50%;
   	float: left;
   }
+  .spinner-container {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+  .icon-large{
+    color: #8bc34a;
+    font-size: 60px;
+    //margin-left: -25px !important;
+    //position: absolute;
+    //margin-top: 0px !important;
+    margin-right: 20px !important;
+  }
+  .nombre-persona{
+    font-weight: bold;
+  }
+  .cargo-persona, .departamento-persona{
+    font-style: italic;
+  }
 }

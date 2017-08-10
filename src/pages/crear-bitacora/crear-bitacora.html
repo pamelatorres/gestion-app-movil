@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Crear Bitacora</ion-title>
+    <ion-title>Bitacora</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,28 +16,40 @@
 <ion-content text-center class="page-crear-bitacora">
 	<ion-row padding>
     <ion-col col-6>
-      <button ion-button icon-only (click)="irA('agendar')" class="button-width">
+      <button ion-button icon-only (click)="irA('AgendarPage')" class="button-width">
         <ion-icon name="calendar"></ion-icon>
       </button>
       <h5>Agendar</h5>
     </ion-col>
     <ion-col col-6>
-      <button ion-button icon-only (click)="irA('vb')" class="button-width">
+      <button ion-button icon-only (click)="irA('VbPage')" class="button-width">
         <ion-icon name="checkmark"></ion-icon>
       </button>
       <h5>Solicitar V°B°</h5>
     </ion-col>
     <ion-col col-6>
-      <button ion-button icon-only (click)="irA('subir-archivo')" class="button-width">
+      <button ion-button icon-only (click)="irA('SubirdocPage')" class="button-width">
         <ion-icon name="cloud-upload"></ion-icon>
       </button>
       <h5>Subir Archivo</h5>
     </ion-col>
     <ion-col col-6>
-      <button ion-button icon-only (click)="irA('derivar')" class="button-width">
+      <button [disabled]="tareas > 0" ion-button icon-only (click)="irA('DerivarresPage')" class="button-width">
         <ion-icon name="git-network"></ion-icon>
       </button>
       <h5>Derivar</h5>
+    </ion-col>
+    <ion-col col-6>
+      <button ion-button icon-only (click)="irA('CrearTareaPage')" class="button-width">
+        <ion-icon name="list"></ion-icon>
+      </button>
+      <h5>Crear Tarea</h5>
+    </ion-col>
+    <ion-col col-6>
+      <button [disabled]="tareas > 0" ion-button icon-only (click)="confirmarCerrarBitacora()" class="button-width">
+        <ion-icon name="close"></ion-icon>
+      </button>
+      <h5>Cerrar bitacora</h5>
     </ion-col>
   </ion-row>
 </ion-content>

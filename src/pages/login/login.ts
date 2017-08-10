@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
-import { Firebase } from '@ionic-native/firebase';
+import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
 
 
@@ -26,7 +26,7 @@ export class LoginPage {
     private loadingCtrl:LoadingController,
     private auth:AuthServiceProvider,
     private alertCtrl:AlertController,
-    private firebase: Firebase,
+    private firebase: FCM,
     private storage:Storage) {
   }
 

@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UrlProvider {
 
-  constructor(public http: Http) {
+  constructor(private http: Http) {
   }
 
   public url:string = "http://192.168.1.42:8000/";

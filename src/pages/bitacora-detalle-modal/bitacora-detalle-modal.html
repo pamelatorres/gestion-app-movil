@@ -14,5 +14,6 @@
 
 
 <ion-content padding>
-{{this.detalle}}
+<h2 *ngIf="titulo != null" text-center>{{this.titulo}}</h2>
+<p text-justify>{{this.detalle}}</p>
 </ion-content>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,LoadingController,Loading, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,LoadingController,Loading, AlertController } from 'ionic-angular';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Http } from '@angular/http';
 import { File, FileEntry } from '@ionic-native/file';
@@ -39,13 +39,12 @@ export class SubirdocPage {
   	private file: File,
   	private url:UrlProvider,
   	private loadingCtrl:LoadingController,
-  	private toastCtrl:ToastController) {
+  	private alertCtrl:AlertController) {
 
   	this.incidente = this.navParams.get('id_incidente');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SubirdocPage');
   }
 
   public abrirFileChooser(){
@@ -77,17 +76,11 @@ export class SubirdocPage {
   	}
   }
   presentToast(title) {
-	  let toast = this.toastCtrl.create({
-	    message: title,
-	    duration: 3000,
-	    position: 'bottom'
-	  });
-
-	  toast.onDidDismiss(() => {
-	    //console.log('Dismissed toast');
-	  });
-
-	  toast.present();
+	  this.alertCtrl.create({
+	    title: 'Documentación',
+      subTitle: title,
+      buttons:['Aceptar']
+	  }).present();
 	}
 
   private readFile(file: any){
@@ -99,6 +92,7 @@ export class SubirdocPage {
       formData.append('file', imgBlob, file.name);
       formData.append('id_incidente',this.incidente);
       formData.append('id_persona_anexo','1');
+      formData.append('tipo_anexo','documento');
       formData.append('descripcion_anexo',this.descripcion);
       this.postData(formData);
     };

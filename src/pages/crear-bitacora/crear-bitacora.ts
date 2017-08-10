@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AgendarPage } from '../agendar/agendar';
-import { DerivarresPage } from '../derivarres/derivarres';
-import { VbPage } from '../vb/vb';
-import { SubirdocPage } from '../subirdoc/subirdoc';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
 
@@ -20,34 +16,79 @@ import { UrlProvider } from '../../providers/url/url';
 })
 export class CrearBitacoraPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  tareas:any;
+  puedeCerrarBitacora:boolean;
+
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    private alertCtrl:AlertController,
+    private toastCtrl:ToastController,
+    private http:Http,
+    private url:UrlProvider) {
+    let bitacora = this.navParams.get('bitacora');
+    if(bitacora.observacion == null && bitacora.titulo)
+      this.puedeCerrarBitacora = false;
+    else
+      this.puedeCerrarBitacora = true;
+    this.tareas = this.navParams.get('tareas').length;
   }
 
   ionViewDidLoad() {
 
   }
 	public irA(ruta:string){
-  	let page:any;
-
-  	switch (ruta) {
-  		case "agendar":
-  			page = 'AgendarPage';
-  			break;
-  		case "vb":
-  			page = 'VbPage';
-  			break;
-  		case "subir-archivo":
-  			page = 'SubirdocPage';
-  			break;
-  		case "derivar":
-  			page = 'DerivarresPage';
-  			break;
-  		default:
-  			break;
-  	}
-
-  	this.navCtrl.push(page,{
-      id_bitacora: this.navParams.get('id_bitacora')
+  	this.navCtrl.push(ruta,{
+      id_bitacora: this.navParams.get('id_bitacora'),
+      bitacora: this.navParams.get('bitacora')
     });
+  }
+
+  confirmarCerrarBitacora(){
+    this.alertCtrl.create({
+      title:'Alerta',
+      subTitle: '¿Desea cerrar la bitácora?',
+      message: 'Será devuelta a quién se la derivó',
+      buttons:[
+        {
+          text:'Aceptar',
+          handler:() => {
+            this.cerrarBitacora();
+          }
+        },{
+          text:'Cancelar',
+          role:'cancel'
+        }
+      ]
+    }).present();
+  }
+
+  // buscar una forma mejor de hacerlo
+  cerrarBitacora(){
+    let data = {
+      id_bitacora:this.navParams.get('id_bitacora'),
+      id_bitacora_derivacion: this.navParams.get('bitacora').id_bitacora_derivacion
+    };
+    this.http.post(this.url.url + 'api/v1/CerrarBitacora', JSON.stringify(data))
+    .subscribe(data => {
+      console.log(data);
+      if (data.status == 201 && data.json().r == '1') {
+        this.navCtrl.setRoot('HomePage');
+        this.presentToast('La bitacora se cerrado correctamente');
+      }else{
+        this.presentToast('Aun hay tareas pendientes');
+      }
+    });
+  }
+
+  presentToast(title) {
+    this.alertCtrl.create({
+      title: 'Bitacora',
+      subTitle: title,
+      buttons:[
+        {
+          text:'Aceptar'
+        }
+      ]
+    }).present();
   }
 }

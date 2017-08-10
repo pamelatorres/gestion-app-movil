@@ -4,6 +4,15 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Http } from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
 import { Storage } from '@ionic/storage';
+import {
+ GoogleMaps,
+ GoogleMap,
+ GoogleMapsEvent,
+ LatLng,
+ CameraPosition,
+ MarkerOptions,
+ Marker
+} from '@ionic-native/google-maps';
 
 //import { ResponsabilidadesPage } from '../responsabilidades/responsabilidades';
 
@@ -23,9 +32,10 @@ declare var google;
 
 export class MapPage {
 
-  map: any;
+  map: GoogleMap;
   markers: any = new Array();
-  public mostrarBoton: boolean = false;
+  sectores_markers: any = new Array();
+  mostrarBoton: boolean = false;
   responsabilidad: any;
   user:any;
 
@@ -38,7 +48,8 @@ export class MapPage {
     private viewCtrl: ViewController,
     private toastCtrl: ToastController,
     private url:UrlProvider,
-    private storage:Storage) {
+    private storage:Storage,
+    private googleMaps: GoogleMaps) {
     this.storage.get('user')
       .then(user => this.user = user);
     this.responsabilidad = + this.navParams.get('responsabilidad');
@@ -57,42 +68,75 @@ export class MapPage {
     let element: HTMLElement = document.getElementById('map');
     this.geolocation.getCurrentPosition().then((position) => {
 
-      let latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-      let mapOptions = {
-        center: latlng,
-        zoom: 18
-      };
-      this.map = new google.maps.Map(element,mapOptions);
-      google.maps.event.addListener(this.map, 'click', (mouseEvent) => {
-        this.addMarker(mouseEvent.latLng);
-      });
-      //console.log(this.map);
+      let latLng:LatLng = new LatLng(position.coords.latitude, position.coords.longitude);
+      this.map = this.googleMaps.create(element);
+      this.map.one(GoogleMapsEvent.MAP_READY)
+        .then(() => {
+          console.log(this.map);
+          this.map.animateCamera({
+            target: latLng,
+            zoom: 18
+          });
+          this.cargarSectoresCerrados();
+          this.map.on(GoogleMapsEvent.MAP_CLICK)
+            .subscribe(data => {
+              this.addMarker(data);
+            });
+        });
     });
+  }
+
+  cargarSectoresCerrados(){
+    this.http.get(this.url.url + 'api/v1/CerrarSector')
+      .subscribe(data => {
+        this.sectores_markers = data.json();
+        this.sectores_markers.forEach(sector => {
+          let latLng = new LatLng(+ sector.latitud_sc, + sector.longitud_sc);
+          let markerOptions:MarkerOptions = {
+            position:latLng,
+            title:'Sector cerrado',
+            icon: {
+              url:'www/img/bloqueo_incidentes.png',
+              size: {
+                width:94,
+                height:94
+              }
+            }
+          };
+          this.map.addMarker(markerOptions)
+            .then((marker: Marker) => {
+
+              //marker.showInfoWindow();
+            });
+        });
+      });
   }
 
   addMarker(latlng){
     if (this.markers.length > 0) {
       this.clearOverlays();
     }
-    let marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.Drop,
-      position: latlng
-    });
+    let markerOptions:MarkerOptions = {
+      position:latlng,
+      title:'Ubicación del incidente'
+    };
+    this.map.addMarker(markerOptions)
+      .then((marker:Marker) => {
+        this.markers.push(marker);
+        //console.log(marker.getPosition());
+      });
     this.mostrarBoton = true;
-    this.markers.push(marker);
-    this.cdRef.detectChanges();
   }
 
   clearOverlays(){
     for (var i = 0; i < this.markers.length; i++ ) {
-      this.markers[i].setMap(null);
+      this.markers[i].remove();
     }
     this.markers.length = 0;
   }
 
   confirmAlert() {
+    this.map.setClickable(false);
     let alert = this.alertCtrl.create({
       title: 'Confirmar incidente',
       message: '¿Desea generar este incidente?',
@@ -101,13 +145,17 @@ export class MapPage {
           text: 'No',
           role: 'cancel',
           handler: () => {
+            this.map.setClickable(true);
             //console.log('No');
           }
         },
         {
           text: 'Si',
           handler: () => {
-            this.crearIncidente();
+            this.markers[this.markers.length -1].getPosition()
+              .then(latLng => {
+                this.crearIncidente(latLng);
+              });
           }
         }
       ]
@@ -115,24 +163,28 @@ export class MapPage {
     alert.present();
   }
 
-  crearIncidente(){
+  crearIncidente(latLng){
     //let headers = new Headers({ 'Content-Type': 'application/json' });
     //let options = new RequestOptions(headers);
-    let latLng = this.markers[this.markers.length -1].position;
+    console.log(latLng);
     let data = {
       id_usuario_informante: this.user.id_usuario,
       id_responsabilidad: this.responsabilidad,
-      latitud: latLng.lat(),
-      longitud: latLng.lng()
+      latitud: latLng.lat,
+      longitud: latLng.lng
     };
     //console.log(data);
     this.http.post(this.url.url + 'api/v1/incidentes', JSON.stringify(data))
       .subscribe(data => {
-        if (data.status == 201) {
-          this.presentToast('Incidente generado exitosamente');
+        console.log(data);
+        if (data.status >= 200) {
+          //this.presentToast('Incidente generado exitosamente');
+          this.presentAlert();
           this.navCtrl.push('DocumentacionPage',{
             id_incidente: data.json().r
           }).then(() => {
+              this.map.setClickable(true);
+              this.clearOverlays();
               // first we find the index of the current view controller:
               const index = this.viewCtrl.index;
               // then we remove it from the navigation stack
@@ -144,17 +196,16 @@ export class MapPage {
     //console.log(data);
   }
 
-  presentToast(title) {
-    let toast = this.toastCtrl.create({
-      message: title,
-      duration: 3000,
-      position: 'bottom'
-    });
-
-    toast.onDidDismiss(() => {
-      //console.log('Dismissed toast');
-    });
-
-    toast.present();
+  presentAlert() {
+    this.alertCtrl.create({
+      title:'Gestión Municipio',
+      subTitle:'El incidente ha sido creado satisfactoriamente',
+      message:'Ahora puede anexar archivos',
+      buttons:[
+        {
+          text:'Aceptar'
+        }
+      ]
+    }).present();
   }
 }

@@ -4,8 +4,6 @@ import { UrlProvider } from '../../providers/url/url';
 import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 
-
-
 /**
  * Generated class for the BitacorasPage page.
  *
@@ -18,7 +16,7 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'bitacoras.html',
 })
 export class BitacorasPage {
-  
+
   bitacoras: any;
   user:any;
 
@@ -39,7 +37,7 @@ export class BitacorasPage {
   }
 
   getIncidentes(){
-    this.http.get(this.url.url + 'api/v1/Bitacoras/' + this.user.id_usuario)
+    this.http.get(this.url.url + 'api/v1/Bitacoras/' + this.user.id_usuario + '/1')
       .subscribe(data => {
         console.log(data);
         this.bitacoras = data.json();
@@ -51,5 +49,4 @@ export class BitacorasPage {
       bitacora: this.bitacoras[$i]
     });
   }
-
 }

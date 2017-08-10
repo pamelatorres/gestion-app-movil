@@ -19,7 +19,12 @@
       <h2>Agendar evento</h2>
     </ion-list-header>
     <ion-item>
-      <ion-textarea placeholder="Descripción del evento" [(ngModel)]="this.descripcion"></ion-textarea>
+      <ion-label floating>Título</ion-label>
+      <ion-input type="text" [(ngModel)]="this.titulo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Descripción del evento</ion-label>
+      <ion-textarea [(ngModel)]="this.descripcion"></ion-textarea>
     </ion-item> 
     <ion-item>
       <p>Fecha de inicio</p>

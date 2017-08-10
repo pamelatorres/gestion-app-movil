@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Mapa</ion-title>
+    <ion-title>Ubicación Georeferencial</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,8 +16,6 @@
 <ion-content>
 
 	<div #map id="map" style="height:100%;">
-		
+		  <button *ngIf="mostrarBoton" round ion-button large full class="next-button" (click)="confirmAlert()">Aceptar</button>
 	</div>
-
-	<button *ngIf="mostrarBoton" ion-button large full class="next-button" (click)="confirmAlert()">Aceptar</button>
 </ion-content>

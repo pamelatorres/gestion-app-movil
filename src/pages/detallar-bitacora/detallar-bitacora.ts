@@ -17,6 +17,7 @@ import { UrlProvider } from '../../providers/url/url';
 })
 export class DetallarBitacoraPage {
 
+  titulo:string = '';
   observacion:string = '';
   bitacora:any;
 
@@ -35,7 +36,8 @@ export class DetallarBitacoraPage {
   guardar(){
     let data = {
       observacion: this.observacion,
-      id_bitacora: this.bitacora
+      id_bitacora: this.bitacora,
+      titulo: this.titulo
     }
     this.http.post(this.url.url + 'api/v1/BitacoraDetalle', JSON.stringify(data)).subscribe(data => {
       if(data.status == 201){

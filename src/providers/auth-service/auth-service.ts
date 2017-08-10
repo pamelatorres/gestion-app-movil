@@ -72,13 +72,19 @@ export class AuthServiceProvider {
   }
   // ERROR ARREGLAR
   public actualizarToken(token){
-    token.id_usuario = 1;
-    this.http.post(this.url.url + 'api/v1/Token', JSON.stringify(token)).subscribe(data =>{
-      console.log(data);
-      if (data.status == 201 && data.json() == true) { 
-        this.storage.set('token',token.token);
-      }
-    });
+    this.storage.get('user')
+      .then(user => {
+        let data = {
+          id_usuario: user.id_usuario,
+          token: token
+        };
+        this.http.post(this.url.url + 'api/v1/Token', JSON.stringify(data)).subscribe(data =>{
+          console.log(data);
+          if (data.status == 201 && data.json() == true) { 
+            this.storage.set('token',token);
+          }
+        });
+      });
   }
   constructor(public http: Http, 
     public storage:Storage,

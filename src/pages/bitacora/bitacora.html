@@ -10,30 +10,71 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Bitacora</ion-title>
+    <ion-title>{{bitacora.nombre_clasificacion}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding text-center class="page-bitacora">
+<ion-content padding text-center class="page-bitacora" [style.background-color]="bitacora.color_alerta">
   <ion-card (click)="this.bitacora.observacion != null ? abrirDetalle() : false">
 <!--     <img src="img/nin-live.png"/>-->    
-    <ion-card-content>
+    <ion-card-content no-padding style="padding:7px;">
       <ion-card-title>
-        Información
+        <h2 *ngIf="this.bitacora.titulo != null">
+          {{(this.bitacora.titulo | truncate: 15) + (this.bitacora.titulo.length > 15 ? '...' : '')}}
+        </h2>
+        <h3>{{bitacora.nombre_responsabilidad}}</h3>
         </ion-card-title>
       <p *ngIf="this.bitacora.observacion != null">
-        {{(this.bitacora.observacion | truncate: 24) + (this.bitacora.observacion.length > 24 ? '...' : '')}}
+        {{(this.bitacora.observacion | truncate: 140) + (this.bitacora.observacion.length > 140 ? '...' : '')}}
       </p>
       <button *ngIf="this.bitacora.observacion == null" (click)="irA('DetallarBitacoraPage')" ion-button round full>Ingresar Descripción</button>
     </ion-card-content>
   </ion-card>
   <ion-card>
     <ion-card-header>
-      <h2>Gary Meliman</h2>
+      <h2>Departamento de {{bitacora.nombre_depto}}</h2>
+      <h2>{{this.bitacora.nombre_pers}} {{this.bitacora.paterno_pers}} {{this.bitacora.materno_pers}}</h2>
+      <br>
       <p>{{this.bitacora.fecha_creacion | date: 'd'}} de {{this.bitacora.fecha_creacion | date: 'MMMM'}} del {{this.bitacora.fecha_creacion | date: 'y'}} a las {{this.bitacora.fecha_creacion | date: 'H:m'}}</p>
+      <p>Estado {{bitacora.nombre_estado}}</p>
+      <p>Nivel de alerta {{bitacora.nombre_nivel}}</p>
+      <button ion-button round full small (click)="irA('AgendaPage')">Ver agendas</button>
     </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <button ion-item *ngIf="vbs.length > 0" (click)="toggleGroup(5)" [ngClass]="{active: isGroupShown(5)}">
+          <ion-icon name="checkmark" item-start></ion-icon>
+          Vistos buenos
+          <ion-badge item-end>{{vbsPendientes}}</ion-badge>
+        </button>
+
+        <div *ngIf="isGroupShown(5)">
+          <ion-item text-wrap text-justify *ngFor="let visto of vbs;" (click)="abrirMenuVB($event,visto)">
+            <p item-center>Detalle <br>{{visto.detalle_vb}}</p>
+            <p item-center *ngIf="visto.aprueba_vb">{{visto.aprueba_vb ? 'Aprobado' : 'Rechazado'}}</p>
+            <p *ngIf="visto.monto_vb > 0" item-center>Monto ${{visto.monto_vb}}</p>
+            <p item-center>{{visto.fecha_ingreso_vb}}</p>
+          </ion-item>
+        </div>
+
+        <button ion-item *ngIf="tareas.length > 0" (click)="toggleGroup(6)" [ngClass]="{active: isGroupShown(6)}">
+          <ion-icon name="list" item-start></ion-icon>
+          Tareas
+          <ion-badge item-end>{{tareasPendientes}}</ion-badge>
+        </button>
+
+        <div *ngIf="isGroupShown(6)">
+          <ion-item text-wrap text-justify *ngFor="let tarea of tareas;">
+            <p item-center>Detalle <br>{{tarea.detalle_tarea}}</p>
+            <p item-center>Fecha incio: {{tarea.fecha_inicio_tarea}}</p>
+            <p item-center>Fecha termino: {{tarea.fecha_termino_tarea}}</p>
+          </ion-item>
+        </div>
+      </ion-list>
+    </ion-card-content>
 
     <ion-list>
       <button ion-item (click)="toggleGroup(1)" [ngClass]="{active: isGroupShown(1)}">
@@ -90,6 +131,7 @@
     </ion-list>
   </ion-card>
   <ion-fab right bottom>
-    <button (click)="irA('CrearBitacoraPage')" ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
+    <button *ngIf="evaluacion != null" (click)="irAEvaluacion()" ion-fab color="primary"><ion-icon md-name="date_range"></ion-icon></button>
+    <button *ngIf="evaluacion == null" [disabled]="this.bitacora.nombre_estado == 'Derivado'" (click)="irACrearBitacora()" ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>
