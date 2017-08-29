@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, 
+  NavController, 
+  NavParams, 
+  AlertController,
+  LoadingController } from 'ionic-angular';
 import { PersonasDataProvider } from '../../providers/personas-data/personas-data';
 import 'rxjs/add/operator/debounceTime';
 import { FormControl } from '@angular/forms';
@@ -32,14 +36,18 @@ export class CrearTareaPage {
     public navParams: NavParams,
     private personasData:PersonasDataProvider,
     private datePicker:DatePicker,
-    private toastCtrl:ToastController,
+    private alertCtrl:AlertController,
     private http:Http,
-    private url:UrlProvider) {
+    private url:UrlProvider,
+    private loadCtrl:LoadingController) {
 
     this.busquedaControl = new FormControl();
   }
   guardar(){
-    console.log(this.items[this.itemSeleccionado].id_usuario);
+    let loading = this.loadCtrl.create({
+      content:'Por favor espere'
+    });
+    loading.present();
     if (this.label_fecha_inicio == null || this.label_fecha_termino == null || this.descripcion == null || this.itemSeleccionado == null) {
       this.presentToast('Todos los campos son requeridos');
     }else{
@@ -52,7 +60,7 @@ export class CrearTareaPage {
       };
       this.http.post(this.url.url + 'api/v1/Tareas', JSON.stringify(data))
         .subscribe(data => {
-          console.log(data);
+          loading.dismiss();
           if (data.status == 201) {
             this.navCtrl.pop();
             this.presentToast('Tarea guardada correntamente');
@@ -73,7 +81,7 @@ export class CrearTareaPage {
   }
 
   setFilteredItems(){
-    this.items = this.personasData.filtrarDatos(this.palabraClave);
+    this.items = this.personasData.filtrarDatos(this.palabraClave,2);
   }
 
   seleccionarUsuario(idUsuario,i){
@@ -125,16 +133,10 @@ export class CrearTareaPage {
     return formatString.replace("#hhhh#",hhhh).replace("#hhh#",hhh).replace("#hh#",hh).replace("#h#",h).replace("#mm#",mm).replace("#m#",m).replace("#ss#",ss).replace("#s#",s).replace("#ampm#",ampm).replace("#AMPM#",AMPM);
   }
   presentToast(title) {
-    let toast = this.toastCtrl.create({
+    this.alertCtrl.create({
+      title:'Crear tarea',
       message: title,
-      duration: 3000,
-      position: 'bottom'
+      buttons:['Aceptar']
     });
-
-    toast.onDidDismiss(() => {
-      //console.log('Dismissed toast');
-    });
-
-    toast.present();
   }
 }

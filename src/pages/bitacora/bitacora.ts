@@ -6,10 +6,12 @@ import { IonicPage,
           AlertController, 
           ToastController,
           PopoverController,
-          Platform } from 'ionic-angular';
+          Platform,
+          LoadingController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
 import { Storage } from '@ionic/storage';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 /**
  * Generated class for the BitacoraPage page.
@@ -37,6 +39,12 @@ export class BitacoraPage {
   vbs:any = new Array;
   bitacora:any;
   evaluacion:any;
+  calculoDiasData:any = {};
+  diasTotales:any;
+  responsablePrincipal:any;
+  responsableActual:string;
+  tipo_accion:boolean;
+  loading:any;
 
 	now: string = new Date().toJSON();
   constructor(public navCtrl: NavController, 
@@ -48,12 +56,16 @@ export class BitacoraPage {
     private toastCtrl:ToastController,
     private popOverCtrl:PopoverController,
     private storage:Storage,
-    private platform:Platform) {
+    private platform:Platform,
+    private imageViewer:PhotoViewer,
+    private loadCtrl:LoadingController) {
     this.bitacora = this.navParams.get('bitacora');
     this.getDocs();
     this.getTareas();
     this.getVistosBuenos();
     this.evaluacion = this.navParams.get('id_evaluacion');
+    this.calculoDias(this.bitacora.id_incidente);
+    this.tipo_accion = this.navParams.get('tipo_accion') == '0';
   }
 
   ionViewDidLoad() {
@@ -97,15 +109,37 @@ export class BitacoraPage {
       });
   }
 
+
+  getData = (data) => {
+    return new Promise((resolve, reject) => {
+      this.bitacora.titulo = data.titulo;
+      this.bitacora.observacion = data.observacion;
+    });
+  }
+
+  irADetallarBitacora(){
+    this.navCtrl.push('DetallarBitacoraPage',{
+      id_bitacora:this.bitacora.id_bitacora,
+      bitacora: this.bitacora,
+      callback: this.getData
+    });
+  }
+
   irA(page) {
+    this.loading = this.loadCtrl.create({
+      content:'Por favor espere'
+    });
+    this.loading.present();
     this.navCtrl.push(page,{
       id_bitacora:this.bitacora.id_bitacora,
       bitacora: this.bitacora
+    }).then(()=> {
+      this.loading.dismiss();
     });
   }
 
   irACrearBitacora(){
-    this.navCtrl.push('CrearBitacoraPage',{
+    let push = this.navCtrl.push('CrearBitacoraPage',{
       id_bitacora:this.bitacora.id_bitacora,
       bitacora: this.bitacora,
       tareas:this.tareas
@@ -134,7 +168,7 @@ export class BitacoraPage {
   }
 
   getVistosBuenos(){
-    this.http.get(this.url.url + 'api/v1/VistoBueno/' + this.bitacora.id_bitacora)
+    this.http.get(this.url.url + 'api/v1/VistoBueno/' + this.bitacora.id_bitacora + '/0')
       .subscribe(data => {
         if (data.status >= 200) {
           this.vbs = data.json();
@@ -167,5 +201,23 @@ export class BitacoraPage {
       id_incidente: this.navParams.get('id_incidente'),
       id_evaluacion: this.navParams.get('id_evaluacion')
     });
+  }
+
+  calculoDias(idIncidente){
+    this.http.get(this.url.url + 'api/v1/CalculoDias/' + idIncidente)
+      .subscribe(data => {
+        console.log(data);
+        this.calculoDiasData = data.json();
+        this.diasTotales = this.calculoDiasData[0].dias_totales;
+        this.responsablePrincipal = this.calculoDiasData[0].responsable;
+        this.responsableActual = this.calculoDiasData[this.calculoDiasData.length - 1].responsable
+      });
+  }
+  abrirToast(mensaje){
+    this.toastCtrl.create({message:mensaje, duration:3000}).present();
+  }
+
+  openImage(url){
+    this.imageViewer.show(this.url.url + 'api/v1/ServeImages/' + encodeURIComponent(url).slice(0,-4));
   }
 }

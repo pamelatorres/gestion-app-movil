@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController,ModalController } from 'ionic-angular';
 import { Http, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
 import * as moment from 'moment';
@@ -17,16 +17,20 @@ import * as moment from 'moment';
 export class CerrarVbPage {
 
   data:any;
-  aceptar:boolean;
+  aceptar:boolean = true;
+  aceptarString:string;
   respuesta:string;
   fecha:Date = new Date();
+  vb:any = {};
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private http:Http,
     private url:UrlProvider,
-    private alertCtrl:AlertController) {
-    this.data = JSON.parse(this.navParams.get('data').vb);
+    private alertCtrl:AlertController,
+    private modalCtrl:ModalController) {
+    this.vb = this.navParams.get('vb');
+    console.log(this.vb);
   }
 
   ionViewDidLoad() {
@@ -34,7 +38,7 @@ export class CerrarVbPage {
 
   cerrarVb(aceptar){
     let data = {
-      id_vb:this.navParams.get('data').vbid,
+      id_vb:this.vb.id_vb,
       aprueba_vb: this.aceptar ? 1 : 0,
       respuesta_vb: this.respuesta,
       fecha_vb: moment().format('YYYY-MM-DD')
@@ -47,7 +51,7 @@ export class CerrarVbPage {
     this.http.put(this.url.url + 'api/v1/VistoBueno', JSON.stringify(data), options)
       .subscribe(data => {
         if(data.json()){
-          this.navCtrl.pop();
+          this.navCtrl.setRoot('VbsPage');
           this.presentAlert();
         }
       });
@@ -65,5 +69,36 @@ export class CerrarVbPage {
         }
       ]
     }).present();
+  }
+
+  preguntarDerivarVistoBueno(){
+    if (this.vb.validador_derivacion == '0' 
+      || this.vb.validador_derivacion == null) {
+      this.modalCtrl.create('DerivarVistoBuenoPage',{
+        vb:this.vb
+      }).present();
+    }else{
+      this.alertCtrl.create({
+        title:'Derivar visto bueno', 
+        message:'Desea derivar el visto bueno?', 
+        buttons:[
+          {
+            text:'Aceptar',
+            handler:() =>{
+              this.derivarVistoBueno()
+            } 
+          },{
+            text:'Cancelar'
+          }
+        ]
+      }).present();
+    }
+  }
+
+  derivarVistoBueno(){
+  }
+
+  onChange(){
+    this.aceptar = this.aceptarString == 'si' ? true: false;
   }
 }

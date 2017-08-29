@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, 
+  NavController, 
+  NavParams, 
+  AlertController, 
+  ToastController,
+  LoadingController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
 import { PersonasDataProvider } from '../../providers/personas-data/personas-data';
 import 'rxjs/add/operator/debounceTime';
 import { FormControl } from '@angular/forms';
 import { Storage } from '@ionic/storage';
-
+ 
 /**
  * Generated class for the DerivarresPage page.
  *
@@ -37,7 +42,8 @@ export class DerivarresPage {
     private url:UrlProvider,
     private alertCtrl:AlertController,
     private toastCtrl:ToastController,
-    private storage:Storage) {
+    private storage:Storage,
+    private loadCtrl:LoadingController) {
     this.bitacora = this.navParams.get('bitacora');
     //this.obtenerClasificaciones();
     this.busquedaControl = new FormControl();
@@ -79,7 +85,7 @@ export class DerivarresPage {
   }
 
   setFilteredItems(){
-    this.items = this.personasData.filtrarDatos(this.palabraClave);
+    this.items = this.personasData.filtrarDatos(this.palabraClave,2);
   }
 
   seleccionarUsuario(idUsuario,i){
@@ -110,6 +116,10 @@ export class DerivarresPage {
     }).present();
   }
   derivar(){
+    let loading = this.loadCtrl.create({
+      content:'Por favor espere'
+    });
+    loading.present();
     this.storage.get('user')
       .then(user => {
         let data = {
@@ -120,7 +130,7 @@ export class DerivarresPage {
         };
         this.http.post(this.url.url + 'api/v1/Derivar',JSON.stringify(data))
           .subscribe(data => {
-            console.log(data);
+            loading.dismiss();
             if (data.status == 200 && data.json().r == 1) {
               this.navCtrl.setRoot('HomePage');
               this.presentAlert();

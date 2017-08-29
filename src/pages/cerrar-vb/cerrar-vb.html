@@ -23,9 +23,12 @@
     Detalles
   </ion-card-header>
 
-  <ion-card-content>
-    <p>{{data.detalle_vb}}</p>
-    <p *ngIf="data.monto_vb != null">${{data.monto_vb}}</p>
+  <ion-card-content text-center>
+    <i>{{vb.detalle_vb}}</i>
+    <br>
+    <i *ngIf="vb.monto_vb != null">${{vb.monto_vb}}</i>
+    <br>
+    <button (click)="preguntarDerivarVistoBueno()" ion-button round>Derivar visto bueno</button>
   </ion-card-content>
 
 </ion-card>
@@ -34,13 +37,20 @@
     <form (ngSubmit)="cerrarVb()" #cerrarvbForm="ngForm">
       <ion-row>
         <ion-col>
-          <ion-list inset>
+          <ion-list radio-group [(ngModel)]="aceptarString" name="aceptarString">
+            <ion-list-header>
+              Aceptar visto bueno
+            </ion-list-header>
             <ion-item>
-              <ion-label>
-                Aceptar Visto Bueno
-              </ion-label>
-              <ion-toggle name="aceptar" [(ngModel)]="aceptar"></ion-toggle>
+              <ion-label>Si</ion-label>
+              <ion-radio value="si" (ionSelect)="onChange()"></ion-radio>
             </ion-item>
+            <ion-item>
+              <ion-label>No</ion-label>
+              <ion-radio value="no" (ionSelect)="onChange()"></ion-radio>
+            </ion-item>
+          </ion-list>
+          <ion-list no-lines>
             <ion-item>
               <ion-label floating>
                 Observación

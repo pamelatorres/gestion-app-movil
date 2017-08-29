@@ -39,11 +39,13 @@ export class AgendasPage {
         if (data.status == 200) {
           var events = [];
           data.json().forEach((agenda, index) => {
+            let revocada = agenda.estado_agenda == '0' ? '(Agenda revocada)' : '';
+            let title = agenda.titulo + ' ' + revocada;
             let fechaInicio = new Date(agenda.fecha_inicio);
             let fechaTermino = new Date(agenda.fecha_termino);
             events.push({
               position: index,
-              title: agenda.titulo,
+              title: title,
               descripcion: agenda.descripcion_agenda,
               startTime: fechaInicio,
               endTime:fechaTermino,
@@ -59,7 +61,7 @@ export class AgendasPage {
     this.viewTitle = title;
   }
   onEventSelected(event) {
-    this.abrirDetalle(this.eventSource[event.position].descripcion);
+    this.abrirDetalle(this.eventSource[event.position]);
     //console.log(event);
   }
 
@@ -87,10 +89,11 @@ export class AgendasPage {
     current.setHours(0, 0, 0);
     return date < current;
   };
-  abrirDetalle(descripcion){
+  abrirDetalle(event){
     //console.log(descripcion);
     let detalleModal = this.modalCtrl.create('BitacoraDetalleModalPage',{
-      detalle: descripcion
+      detalle: event.descripcion,
+      titulo: event.title
     });
     detalleModal.present();
   }

@@ -20,7 +20,7 @@
       <h2>Fotos</h2>
     </ion-item>
     <div *ngIf="isGroupShown(1)">
-      <ion-item *ngFor="let foto of fotos;" no-lines class="margin-left">
+      <ion-item *ngFor="let foto of fotos;" no-lines class="margin-left" (click)="openImage(foto.ruta_anexo)">
         <ion-icon name="image" item-left large></ion-icon>
         <h2>{{foto.ruta_anexo.split("/").pop()}} - {{foto.fecha_incorporacion}}</h2>
       </ion-item>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController } from 'ionic-angular';
 /**
  * Generated class for the HomePage page.
  *
@@ -15,11 +15,15 @@ export class HomePage {
   clasificaciones: any;
   clasificacion: any;
 
-  constructor(public navCtrl: NavController ) {
-  
+  constructor(public navCtrl: NavController,
+              private modalCtrl:ModalController ) {
   }
 
   irA(page){
     this.navCtrl.push(page);
+  }
+
+  openUserModal(){
+    this.modalCtrl.create('UserModalPage').present();
   }
 }

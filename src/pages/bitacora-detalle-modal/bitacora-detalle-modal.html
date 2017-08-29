@@ -7,13 +7,17 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Detalle</ion-title>
+    <ion-title>
+      <p *ngIf="titulo != null">{{this.titulo}}</p>
+      <p *ngIf="titulo == null">Detalle</p>
+    </ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-<h2 *ngIf="titulo != null" text-center>{{this.titulo}}</h2>
-<p text-justify>{{this.detalle}}</p>
+  <p><b>{{titulo}}</b></p>
+  <p text-justify><i>{{this.detalle}}</i></p>
+  <button *ngIf="puedeRevocar && !agendaRevocada" class="revocar-button" round ion-button (click)="revocarAlert()">Revocar Agenda</button>
 </ion-content>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 
 /**
@@ -27,7 +28,8 @@ export class DocsPage {
   constructor(public navCtrl: NavController, 
   	public navParams: NavParams,
   	private http:Http,
-  	private url:UrlProvider) {
+  	private url:UrlProvider,
+    private imageViewer:PhotoViewer) {
   	this.incidente = this.navParams.get('id_incidente');
   	this.getDocs();
   }
@@ -69,4 +71,8 @@ export class DocsPage {
   isGroupShown(group) {
     return this.shownGroup === group;
   };
+
+  openImage(url){
+    this.imageViewer.show(this.url.url + 'api/v1/ServeImages/' + encodeURIComponent(url).slice(0,-4));
+  }
 }

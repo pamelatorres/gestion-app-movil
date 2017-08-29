@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, 
+  NavController, 
+  NavParams, 
+  AlertController, 
+  ToastController,
+  LoadingController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
 
@@ -24,7 +29,8 @@ export class CrearBitacoraPage {
     private alertCtrl:AlertController,
     private toastCtrl:ToastController,
     private http:Http,
-    private url:UrlProvider) {
+    private url:UrlProvider,
+    private loadCtrl:LoadingController) {
     let bitacora = this.navParams.get('bitacora');
     if(bitacora.observacion == null && bitacora.titulo)
       this.puedeCerrarBitacora = false;
@@ -38,6 +44,7 @@ export class CrearBitacoraPage {
   }
 	public irA(ruta:string){
   	this.navCtrl.push(ruta,{
+      id_incidente: this.navParams.get('bitacora').id_incidente,
       id_bitacora: this.navParams.get('id_bitacora'),
       bitacora: this.navParams.get('bitacora')
     });
@@ -64,13 +71,17 @@ export class CrearBitacoraPage {
 
   // buscar una forma mejor de hacerlo
   cerrarBitacora(){
+    let loading = this.loadCtrl.create({
+      content:'Por favor espere'
+    });
+    loading.present();
     let data = {
       id_bitacora:this.navParams.get('id_bitacora'),
       id_bitacora_derivacion: this.navParams.get('bitacora').id_bitacora_derivacion
     };
     this.http.post(this.url.url + 'api/v1/CerrarBitacora', JSON.stringify(data))
     .subscribe(data => {
-      console.log(data);
+      loading.dismiss();
       if (data.status == 201 && data.json().r == '1') {
         this.navCtrl.setRoot('HomePage');
         this.presentToast('La bitacora se cerrado correctamente');

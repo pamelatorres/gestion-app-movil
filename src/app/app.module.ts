@@ -28,6 +28,9 @@ import { PersonasDataProvider } from '../providers/personas-data/personas-data';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Ionic2RatingModule } from 'ionic2-rating';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { AppVersion } from '@ionic-native/app-version';
+
 
 @NgModule({
   declarations: [
@@ -69,7 +72,9 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     PersonasDataProvider,
     LocalNotifications,
     GoogleMaps,
-    Ionic2RatingModule
+    Ionic2RatingModule,
+    PhotoViewer,
+    AppVersion
   ]
 })
 export class AppModule {}

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, 
+  NavController, 
+  NavParams, 
+  AlertController,
+  LoadingController } from 'ionic-angular';
 import { DatePicker } from '@ionic-native/date-picker';
 import { Http } from '@angular/http'
 import { UrlProvider } from '../../providers/url/url';
@@ -30,9 +34,10 @@ export class AgendarPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private datePicker:DatePicker,
-    private toastCtrl:ToastController,
+    private alertCtrl:AlertController,
     private http:Http,
-    private url:UrlProvider) {
+    private url:UrlProvider,
+    private loadCtrl:LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -40,6 +45,10 @@ export class AgendarPage {
   }
 
   guardar(){
+    let loading = this.loadCtrl.create({
+      content:'Por favor espere'
+    });
+    loading.present();
     if (this.label_fecha_inicio == null || this.label_fecha_termino == null || this.descripcion == null || this.titulo == null) {
       this.presentToast('Todos los campos son requeridos');
     }else{
@@ -53,7 +62,7 @@ export class AgendarPage {
       console.log(data);
       this.http.post(this.url.url + 'api/v1/Agenda', JSON.stringify(data))
         .subscribe(data => {
-          console.log(data);
+          loading.dismiss();
           if (data.status == 201) {
             this.navCtrl.pop();
             this.presentToast('Evento guardado correntamente');
@@ -130,17 +139,11 @@ export class AgendarPage {
     return formatString.replace("#hhhh#",hhhh).replace("#hhh#",hhh).replace("#hh#",hh).replace("#h#",h).replace("#mm#",mm).replace("#m#",m).replace("#ss#",ss).replace("#s#",s).replace("#ampm#",ampm).replace("#AMPM#",AMPM);
   }
   presentToast(title) {
-    let toast = this.toastCtrl.create({
+    this.alertCtrl.create({
+      title:'Agendar',
       message: title,
-      duration: 3000,
-      position: 'bottom'
-    });
-
-    toast.onDidDismiss(() => {
-      //console.log('Dismissed toast');
-    });
-
-    toast.present();
+      buttons:['Aceptar']
+    }).present();
   }
 }
 

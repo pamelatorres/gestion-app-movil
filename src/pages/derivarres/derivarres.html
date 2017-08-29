@@ -19,15 +19,13 @@
 		</ion-list-header>
     <ion-item>
       <ion-searchbar [(ngModel)]="palabraClave" [formControl]="busquedaControl" (ionInput)="onSearchInput()" placeholder="Buscar usuario de departamento"></ion-searchbar>
-
-      <div *ngIf="buscando" class="spinner-container">
-        <ion-spinner></ion-spinner>
-      </div>
     </ion-item>
-    <ion-item *ngFor="let item of items; let i = index" (click)="seleccionarUsuario(item.id_usuario,i)" text-wrap>
-      <p item-start [innerHTML]="item.title | safeHtml"></p>
-      <ion-icon name="checkmark" item-end class="icon-large" *ngIf="seleccionado(i)"></ion-icon>
-    </ion-item>
+    <div *ngIf="palabraClave != ''">
+      <ion-item *ngFor="let item of items; let i = index" (click)="seleccionarUsuario(item.id_usuario,i)" text-wrap>
+        <p item-start [innerHTML]="item.title | safeHtml"></p>
+        <ion-icon name="checkmark" item-end class="icon-large" *ngIf="seleccionado(i)"></ion-icon>
+      </ion-item>
+    </div>
 	</ion-list>
   <button [disabled]="this.itemSeleccionado == null" (click)="crearAlert()" ion-button large full>
     <ion-icon name="send" item-start></ion-icon>

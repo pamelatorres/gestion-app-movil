@@ -39,11 +39,10 @@
 
   <ion-searchbar [(ngModel)]="palabraClave" [formControl]="busquedaControl" (ionInput)="onSearchInput()"></ion-searchbar>
 
-  <div *ngIf="buscando" class="spinner-container">
-    <ion-spinner></ion-spinner>
-  </div>
- 
-  <ion-list>
+  <ion-list *ngIf="palabraClave != ''">
+    <ion-header>
+      
+    </ion-header>
     <ion-item *ngFor="let item of items; let i = index" (click)="seleccionarUsuario(item.id_usuario,i)" text-wrap>
       <p item-start [innerHTML]="item.title | safeHtml"></p>
       <ion-icon name="checkmark" item-end class="icon-large" *ngIf="seleccionado(i)"></ion-icon>

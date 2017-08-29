@@ -43,12 +43,14 @@ export class AgendaPage {
         if (data.status == 200) {
           var events = [];
           data.json().forEach((agenda, index) => {
+            let revocada = agenda.estado_agenda == '0' ? '(Agenda revocada)' : '';
+            let title = agenda.titulo + ' ' + revocada;
             let fechaInicio = new Date(agenda.fecha_inicio);
             let fechaTermino = new Date(agenda.fecha_termino);
             events.push({
               position: index,
-              title: agenda.titulo,
-              descripcion: agenda.descripcion_agenda,
+              title: title,
+              agenda: agenda,
               startTime: fechaInicio,
               endTime:fechaTermino,
               allDay: false
@@ -63,7 +65,7 @@ export class AgendaPage {
     this.viewTitle = title;
   }
   onEventSelected(event) {
-    this.abrirDetalle(this.eventSource[event.position].descripcion);
+    this.abrirDetalle(this.eventSource[event.position]);
     //console.log(event);
   }
 
@@ -91,10 +93,18 @@ export class AgendaPage {
     current.setHours(0, 0, 0);
     return date < current;
   };
-  abrirDetalle(descripcion){
-    //console.log(descripcion);
+  abrirDetalle(event){
     let detalleModal = this.modalCtrl.create('BitacoraDetalleModalPage',{
-      detalle: descripcion
+      titulo:event.title,
+      detalle: event.agenda.descripcion_agenda,
+      tipo: 'agenda',
+      agenda: event.agenda,
+      puede_revocar:true
+    });
+    detalleModal.onDidDismiss(data => {
+      if (data.agenda_revocada) {
+        this.navCtrl.pop();
+      }
     });
     detalleModal.present();
   }

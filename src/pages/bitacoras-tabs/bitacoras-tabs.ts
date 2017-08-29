@@ -16,7 +16,8 @@ export class BitacorasTabsPage {
 
   bitacorasListRoot = 'BitacorasListPage'
   bitacorasMapRoot = 'BitacorasMapPage'
-
+  bitacorasListInformadasRoot = 'BitacorasInformadasPage';
+  bitacorasListDerivadasCerradasRoot = 'BitacorasDerivadasCerradasPage';
 
   constructor(public navCtrl: NavController) {}
 

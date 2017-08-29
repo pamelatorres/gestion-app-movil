@@ -4,6 +4,11 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Inicio</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openUserModal()">
+        <ion-icon name="person"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -22,7 +27,7 @@
     </button>
     <button ion-item (click)="irA('IncidentesPage')">
       <ion-icon name="send" item-start></ion-icon>
-      Incidentes informado
+      Incidentes informados
     </button>
   </ion-list>
 </ion-content>

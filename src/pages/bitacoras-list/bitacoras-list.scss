@@ -1,9 +1,12 @@
 .bitacora-list{
   .fecha-bitacora{
     padding: 10px !important;
-    color: #fff;
     h1,h2{
       font-weight: bold !important;
+      color: #fff;
+    }
+    h3{
+      color: #fff;
     }
   }
   .bitacora-detalle{

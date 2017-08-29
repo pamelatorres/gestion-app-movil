@@ -1,5 +1,11 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ViewController, ToastController } from 'ionic-angular';
+import { IonicPage, 
+  NavController, 
+  NavParams, 
+  AlertController, 
+  ViewController, 
+  ToastController,
+  LoadingController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Http } from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
@@ -49,7 +55,8 @@ export class MapPage {
     private toastCtrl: ToastController,
     private url:UrlProvider,
     private storage:Storage,
-    private googleMaps: GoogleMaps) {
+    private googleMaps: GoogleMaps,
+    private loadCtrl:LoadingController) {
     this.storage.get('user')
       .then(user => this.user = user);
     this.responsabilidad = + this.navParams.get('responsabilidad');
@@ -166,7 +173,10 @@ export class MapPage {
   crearIncidente(latLng){
     //let headers = new Headers({ 'Content-Type': 'application/json' });
     //let options = new RequestOptions(headers);
-    console.log(latLng);
+    let loading = this.loadCtrl.create({
+      content:'Por favor espere'
+    });
+    loading.present();
     let data = {
       id_usuario_informante: this.user.id_usuario,
       id_responsabilidad: this.responsabilidad,
@@ -176,8 +186,8 @@ export class MapPage {
     //console.log(data);
     this.http.post(this.url.url + 'api/v1/incidentes', JSON.stringify(data))
       .subscribe(data => {
-        console.log(data);
         if (data.status >= 200) {
+          loading.dismiss();
           //this.presentToast('Incidente generado exitosamente');
           this.presentAlert();
           this.navCtrl.push('DocumentacionPage',{
