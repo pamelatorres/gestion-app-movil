@@ -205,8 +205,12 @@ export class MapPage {
           };
           this.navCtrl.push('DocumentacionPage',{
             id_incidente: data.json().r,
+<<<<<<< HEAD
             bitacora: bitacora,
             incidente_creado:true
+=======
+            bitacora: bitacora
+>>>>>>> master
           }).then(() => {
               this.map.setClickable(true);
               this.clearOverlays();
