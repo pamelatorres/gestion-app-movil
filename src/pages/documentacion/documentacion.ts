@@ -13,7 +13,7 @@ import { IonicPage,
 	Loading,
   ActionSheetController,
   Content,
-  Scroll } from 'ionic-angular';
+  ViewController } from 'ionic-angular';
 import { File, FileEntry } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
 import { Http, Response } from '@angular/http';
@@ -47,6 +47,7 @@ export class DocumentacionPage {
   bitacora:any = {};
   mensaje:string = '';
   limit:number = 0;
+  incidenteCreado:boolean = false;
 
   constructor(public navCtrl: NavController, 
   	public navParams: NavParams,
@@ -63,10 +64,12 @@ export class DocumentacionPage {
   	private mediaCapture:MediaCapture,
     private storage:Storage,
     private actionCtrl:ActionSheetController,
-    private imageViewer:PhotoViewer) {
+    private imageViewer:PhotoViewer,
+    private viewCtrl:ViewController) {
 
   	this.incidente = navParams.get('id_incidente');
     this.bitacora = navParams.get('bitacora');
+    this.incidenteCreado = navParams.get('incidente_creado');
     this.storage.get('user')
       .then(user => {
         this.user = user;
@@ -331,5 +334,27 @@ export class DocumentacionPage {
   openImage(url){
     console.log(url);
     this.imageViewer.show(url);
+  }
+
+  ionViewCanLeave(){
+    if (!this.incidenteCreado) {
+      return true;
+    }else{
+      let r:boolean = null;
+      if (this.anexos.length == 0) {
+        this.alertCtrl.create({
+          title:'Error',
+          message:'Ingrese la descripción del incidente',
+          buttons:['Aceptar']
+        }).present();
+        r = false;
+      }else{
+        const index = this.viewCtrl.index;
+        this.navCtrl.remove(index);
+        this.navCtrl.remove(index -1);
+        r = true;
+      }
+      return r;
+    }
   }
 }

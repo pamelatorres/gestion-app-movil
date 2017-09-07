@@ -4,7 +4,8 @@ import { IonicPage,
   NavParams, 
   ModalController, 
   PopoverController, 
-  ToastController
+  ToastController,
+  LoadingController
 } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
@@ -32,7 +33,8 @@ export class TareasPage {
     private url:UrlProvider,
     private modalCtrl:ModalController,
     private popoverCtrl:PopoverController,
-    private toastCtrl:ToastController) {
+    private toastCtrl:ToastController,
+    private loading:LoadingController) {
     this.storage.get('user')
       .then(user => {
         this.obtenerTareas(user.id_usuario);
@@ -47,6 +49,7 @@ export class TareasPage {
       .subscribe(data => {
         if (data.status == 200) {
           this.tareas = data.json();
+          console.log(this.tareas);
         }
       });
   }
@@ -78,5 +81,20 @@ export class TareasPage {
       message:title,
       duration: 3000
     }).present();
+  }
+
+  verBitacora(tarea){
+    let loading = this.loading.create({
+      content:'Por favor espere'
+    });
+    loading.present();
+    this.http.get(this.url.url + 'api/v1/bitacora/'+tarea.id_bitacora)
+      .subscribe(data => {
+        this.navCtrl.push('BitacoraPage',{
+          bitacora:data.json()
+        }).then(() => {
+          loading.dismiss();
+        });
+      });
   }
 }

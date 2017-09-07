@@ -199,7 +199,7 @@
         <div *ngIf="isGroupShown(5)">
           <ion-item text-wrap no-padding text-justify *ngFor="let visto of vbs;">
             <p item-center>Detalle <br>{{visto.detalle_vb}}</p>
-            <p item-center *ngIf="visto.aprueba_vb">{{visto.aprueba_vb ? 'Aprobado' : 'Rechazado'}}</p>
+            <p item-center *ngIf="visto.aprueba_vb">{{visto.aprueba_vb == 1 ? 'Aprobado' : 'Rechazado'}}</p>
             <p *ngIf="visto.monto_vb > 0" item-center>Monto ${{visto.monto_vb}}</p>
             <p item-center>{{visto.fecha_ingreso_vb}}</p>
           </ion-item>

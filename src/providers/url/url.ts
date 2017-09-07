@@ -14,5 +14,5 @@ export class UrlProvider {
   constructor(private http: Http) {
   }
 
-  public url:string = "http://pgm.modulonet.cl:8000/index.php/";
+  public url:string = "http://192.168.1.42:8000/";
 }

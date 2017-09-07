@@ -30,7 +30,7 @@ export class VbPage {
   bitacora:any;
   user:any;
   detalle:string;
-  monto:any;
+  monto:any = 0;
   puedeMostratLista = false;
   items:any;
   buscando: any = false;

@@ -17,16 +17,23 @@
 <ion-content padding>
   <ion-list no-lines>
     <ion-item-sliding class="border" *ngFor="let tarea of tareas" no-lines padding>
-      <ion-item (click)="presentToast('Deslice hacia la izquierda para ver menú')">
+      <ion-item (click)="tarea.estado_tarea == 1 ? presentToast('Deslice hacia la izquierda para ver menú') : false">
         <p>
           <b>{{(tarea.detalle_tarea | truncate: 24) + (tarea.detalle_tarea.length > 24 ? '...' : '')}}</b>
           <br>
           <i>Fecha inicio: {{tarea.fecha_inicio_tarea}}</i>
           <br>
           <i>Fecha termino: {{tarea.fecha_termino_tarea}}</i>
+          <br>
+          <i>Estado: {{tarea.estado_tarea == 1 ? 'En proceso' : 'Finalizada'}}</i>
+        </p>
+        <p *ngIf="tarea.estado_tarea == 0">
+          <i>Tarea Realizada: {{tarea.realizacion_tarea == 1 ? 'Si':'No'}}</i>
+          <br>
+          <i>Respuesta: {{tarea.respuesta_tarea}}</i>
         </p>
       </ion-item>
-      <ion-item-options side="right">
+      <ion-item-options side="right" *ngIf="tarea.estado_tarea == 1">
         <button ion-button color="primary" (click)="verDetalle(tarea)">
           <ion-icon name="list-box" item-left small style="font-size: 25px;"></ion-icon>
           Ver detalle
@@ -34,6 +41,10 @@
         <button ion-button color="secondary" (click)="cerrarTarea(tarea)">
           <ion-icon name="close" item-left small style="font-size: 25px;"></ion-icon>
           Cerrar tarea
+        </button>
+        <button ion-button color="secondary" (click)="verBitacora(tarea)">
+          <ion-icon name="eye" item-left small style="font-size: 25px;"></ion-icon>
+          Ver bitácora
         </button>
       </ion-item-options>
     </ion-item-sliding>

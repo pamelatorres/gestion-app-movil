@@ -5,7 +5,8 @@ import { IonicPage,
   AlertController, 
   ViewController, 
   ToastController,
-  LoadingController } from 'ionic-angular';
+  LoadingController,
+  Platform } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Http } from '@angular/http';
 import { UrlProvider } from '../../providers/url/url';
@@ -44,6 +45,7 @@ export class MapPage {
   mostrarBoton: boolean = false;
   responsabilidad: any;
   user:any;
+  position:any;
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -56,7 +58,8 @@ export class MapPage {
     private url:UrlProvider,
     private storage:Storage,
     private googleMaps: GoogleMaps,
-    private loadCtrl:LoadingController) {
+    private loadCtrl:LoadingController,
+    private platform:Platform) {
     this.storage.get('user')
       .then(user => this.user = user);
     this.responsabilidad = + this.navParams.get('responsabilidad');
@@ -64,6 +67,12 @@ export class MapPage {
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad MapPage');
+  }
+
+  isDevelopment(latLng){
+    if (!this.platform.is('cordova')) {
+      this.crearIncidente(latLng);      
+    }
   }
 
   ngAfterViewInit(){
@@ -74,8 +83,9 @@ export class MapPage {
 
     let element: HTMLElement = document.getElementById('map');
     this.geolocation.getCurrentPosition().then((position) => {
-
+      this.position = position;
       let latLng:LatLng = new LatLng(position.coords.latitude, position.coords.longitude);
+      this.isDevelopment(latLng);
       this.map = this.googleMaps.create(element);
       this.map.one(GoogleMapsEvent.MAP_READY)
         .then(() => {
@@ -195,7 +205,8 @@ export class MapPage {
           };
           this.navCtrl.push('DocumentacionPage',{
             id_incidente: data.json().r,
-            bitacora: bitacora
+            bitacora: bitacora,
+            incidente_creado:true
           }).then(() => {
               this.map.setClickable(true);
               this.clearOverlays();
