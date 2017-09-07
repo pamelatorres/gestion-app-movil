@@ -15,15 +15,27 @@
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item class="border" *ngFor="let tarea of tareas" (click)="presentPopover($event, tarea)" no-lines padding >
-      <p>
-        <b>{{(tarea.detalle_tarea | truncate: 24) + (tarea.detalle_tarea.length > 24 ? '...' : '')}}</b>
-        <br>
-        <i>Fecha inicio: {{tarea.fecha_inicio_tarea}}</i>
-        <br>
-        <i>Fecha termino: {{tarea.fecha_termino_tarea}}</i>
-      </p>
-    </ion-item>
+  <ion-list no-lines>
+    <ion-item-sliding class="border" *ngFor="let tarea of tareas" no-lines padding>
+      <ion-item (click)="presentToast('Deslice hacia la izquierda para ver menú')">
+        <p>
+          <b>{{(tarea.detalle_tarea | truncate: 24) + (tarea.detalle_tarea.length > 24 ? '...' : '')}}</b>
+          <br>
+          <i>Fecha inicio: {{tarea.fecha_inicio_tarea}}</i>
+          <br>
+          <i>Fecha termino: {{tarea.fecha_termino_tarea}}</i>
+        </p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="verDetalle(tarea)">
+          <ion-icon name="list-box" item-left small style="font-size: 25px;"></ion-icon>
+          Ver detalle
+        </button>
+        <button ion-button color="secondary" (click)="cerrarTarea(tarea)">
+          <ion-icon name="close" item-left small style="font-size: 25px;"></ion-icon>
+          Cerrar tarea
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content> 

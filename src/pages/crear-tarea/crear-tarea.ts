@@ -137,6 +137,6 @@ export class CrearTareaPage {
       title:'Crear tarea',
       message: title,
       buttons:['Aceptar']
-    });
+    }).present();
   }
 }

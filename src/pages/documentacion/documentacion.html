@@ -1,9 +1,3 @@
-<!--
-  Generated template for the DocumentacionPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar color="primary">
@@ -13,51 +7,59 @@
 </ion-header>
 
 
-<ion-content padding>
-	<ion-list>
-	  <ion-item-sliding>
-	    <ion-item (click)="presentToast('Deslice hacia la izquierda para ver menú')">
-	      <ion-icon name="logo-youtube" item-left large color="youtube" class="icon-padding"></ion-icon>
-	      <h2>Subir video</h2>
-	    </ion-item>
-	    <ion-item-options side="right">
-	      <button ion-button color="primary">
-	        <ion-icon name="document" item-left small style="font-size: 25px;"></ion-icon>
-	        Desde archivo
-	      </button>
-	      <button ion-button color="secondary">
-	        <ion-icon (click)="captureVideo()" name="videocam" item-left small style="font-size: 25px;"></ion-icon>
-	        Desde camara
-	      </button>
-	    </ion-item-options>
-	  </ion-item-sliding>
-	  <ion-item>
-	  	<ion-icon (click)="subirDocumentacion()" name="folder-open" item-left large class="icon-padding"></ion-icon>
-	    <h2>Subir documento</h2>
-	  </ion-item>
-	  <ion-item (click)="describirIncidenteAlert()">
-	  	<ion-icon name="text" item-left large class="icon-padding"></ion-icon>
-	    <h2>Describir</h2>
-	  </ion-item>
-	  <ion-item-sliding>
-	    <ion-item (click)="presentToast('Deslice hacia la izquierda para ver menú')">
-	      <ion-icon name="camera" item-left large class="icon-padding"></ion-icon>
-	      <h2>Tomar fotografías</h2>
-	    </ion-item>
-	    <ion-item-options side="right">
-	      <button ion-button color="primary" (click)="takePicture(this.camera.PictureSourceType.PHOTOLIBRARY)">
-	        <ion-icon name="document" item-left small style="font-size: 25px;"></ion-icon>
-	        Desde archivo
-	      </button>
-	      <button ion-button color="secondary" (click)="takePicture(this.camera.PictureSourceType.CAMERA)">
-	        <ion-icon name="camera" item-left small style="font-size: 25px;"></ion-icon>
-	        Desde camara
-	      </button>
-	    </ion-item-options>
-	  </ion-item-sliding>
-	  <ion-item (click)="verDocumentacion()">
-	  	<ion-icon name="document" item-left large class="icon-padding"></ion-icon>
-	    <h2>Ver documentación</h2>
-	  </ion-item>
+<ion-content #content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+	    pullingIcon="chatbubbles"
+      pullingText="Hala para cargar mas mensajes"
+      refreshingSpinner="circles"
+      refreshingText="Cargando mas mensajes">
+    </ion-refresher-content>
+  </ion-refresher>
+	<ion-list [style.background-color]="bitacora.color_alerta" (click)="nada()" no-lines class="bottom-margin" style="height: 100%;">
+		<ion-item *ngFor="let anexo of anexos" no-margin [style.background-color]="bitacora.color_alerta" text-wrap text-justify>
+			<ion-card no-padding>
+			  <ion-card-header>
+			    {{anexo.nombre_pers}} {{anexo.paterno_pers}} {{anexo.materno_pers}}
+			  </ion-card-header>
+			  <ion-card-content>
+<!-- 			  	<div text-center>
+			  		<ion-img padding-bottom *ngIf="anexo.tipo_anexo == 'foto'" width="200" height="200" [src]="anexo.src" (click)="openImage(anexo.src)" cashe="true"></ion-img>
+			  	</div> -->
+			  	<p>
+			  		{{anexo.descripcion_anexo}}
+			  	</p>
+			  	<button margin-top ion-button full icon-left round *ngIf="anexo.tipo_anexo == 'foto'" (click)="openImage(anexo.src)">
+			  		<ion-icon name="camera"></ion-icon>
+			  		Ver Imagen
+		  		</button>
+			    <ion-badge item-right class="fecha_anexo">
+			    	{{anexo.fecha_incorporacion | amLocale:'es' | amTimeAgo}}
+			    </ion-badge>
+			  </ion-card-content>
+			</ion-card>
+		</ion-item>
 	</ion-list>
 </ion-content>
+<ion-footer style="background-color: #e9ebee" (click)="nada()">
+	<ion-list>
+	  <ion-item style="background-color: #e9ebee">
+	  	<ion-icon name="text" item-left large class="icon-padding"></ion-icon>
+	    <ion-label floating>
+	    	Escriba un mensaje
+	    </ion-label>
+	    <ion-textarea [(ngModel)]="mensaje">
+	    	
+	    </ion-textarea>
+	  </ion-item>
+		<ion-item style="background-color: #e9ebee">
+			<button ion-button round item-left icon-only class="camera-button" (click)="camaraOArchivo()">
+				<ion-icon name="camera"></ion-icon>
+			</button>
+			<button [disabled]="!mensaje" ion-button round item-right icon-left class="send-button" (click)="describir()">
+				<ion-icon name="send"></ion-icon>
+				Enviar
+			</button>
+		</ion-item>
+	</ion-list>
+</ion-footer>

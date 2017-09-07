@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.modulonet.gestion" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.modulonet.gestion" version="0.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Gestión Municipio</name>
     <description>Aplicación de seguridad y gestión</description>
     <author email="" href="http://modulonet.cl/">Equipo Modulonet</author>
@@ -84,6 +84,7 @@
     <allow-navigation href="http://192.168.1.198:8100" />
     <allow-navigation href="http://192.168.1.42:8100" />
     <engine name="android" spec="^6.2.3" />
+    <engine name="browser" spec="^4.1.0" />
     <plugin name="com-sarriaroman-photoviewer" spec="^1.1.10" />
     <plugin name="cordova-plugin-actionsheet" spec="^2.3.3" />
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />

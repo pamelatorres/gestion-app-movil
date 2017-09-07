@@ -1,0 +1,23 @@
+page-bitacoras-informadas {
+  .fecha-bitacora{
+    padding: 10px !important;
+    h1,h2{
+      font-weight: bold !important;
+      color: #fff;
+    }
+    h3{
+      color: #fff;
+    }
+  }
+  .bitacora-detalle{
+    padding: 7px !important;
+  }
+  .bitacora-responsable{
+    border-top: solid 1px;
+    border-color: #bdbdbd;
+    padding:5px !important;
+  }
+  .voltear{
+
+  }
+}

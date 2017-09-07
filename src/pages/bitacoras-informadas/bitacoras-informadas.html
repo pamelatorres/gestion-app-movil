@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Mis Bitacoras Informadas</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bitacora-list">
+  <ion-card *ngFor="let bitacora of bitacoras; let i = index" (click)="abrirBitacora(i)">
+    <ion-card-content no-padding>
+      <ion-grid no-padding>
+        <ion-row>
+          <ion-col text-center class="fecha-bitacora" [style.background-color]="bitacora.color_alerta">
+            <h1>{{bitacora.fecha_creacion | date:'dd'}}</h1>
+            <h2>{{bitacora.fecha_creacion | date:'MMMM'}}</h2>
+            <h2>{{bitacora.fecha_creacion | date:'yyyy'}}</h2>
+            <h3>{{bitacora.fecha_creacion | date:'hh:mm'}}</h3>
+          </ion-col>
+          <ion-col col-8 class="bitacora-detalle">
+            <h2>{{bitacora.nombre_responsabilidad}}</h2>
+            <h3>{{bitacora.nombre_clasificacion}}</h3>
+            <h3>{{bitacora.nombre_estado}}</h3>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="bitacora-responsable">
+            <p>
+              {{bitacora.nombre_pers}} {{bitacora.paterno_pers}} {{bitacora.materno_pers}}
+            </p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>    
+    </ion-card-content>
+  </ion-card>
+</ion-content>

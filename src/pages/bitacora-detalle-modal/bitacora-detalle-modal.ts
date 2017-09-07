@@ -17,6 +17,8 @@ export class BitacoraDetalleModalPage {
   puedeRevocar:boolean;
   agendaRevocada:boolean;
   loading:any;
+  detalles:any;
+  colorAlerta:any;
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
@@ -32,9 +34,19 @@ export class BitacoraDetalleModalPage {
       this.agenda = this.navParams.get('agenda');
       this.puedeRevocar = this.navParams.get('puede_revocar');
       this.agendaRevocada = this.agenda.estado_agenda == '0';
-      console.log(this.agendaRevocada);
     }
-    console.log(this.agenda);
+    if (this.tipo == 'bitacora-detalle') {
+      this.obtenerDetalles();
+      this.colorAlerta = this.navParams.get('color_alerta');
+    }
+  }
+
+  obtenerDetalles(){
+    this.http.get(this.url.url + 'api/v1/BitacoraDetalle/'+ this.navParams.get('id_incidente'))
+      .subscribe(data => {
+        this.detalles = data.json();
+        console.log(this.detalle);
+      });
   }
 
   ionViewDidLoad() {
@@ -92,5 +104,8 @@ export class BitacoraDetalleModalPage {
           ]
         }).present();
       });
+  }
+  close(){
+    this.viewCtrl.dismiss();
   }
 }

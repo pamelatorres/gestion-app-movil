@@ -1,0 +1,80 @@
+<!--
+  Generated template for the VerDocsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Ver documentacion</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [style.background-color]="bitacora.color_alerta">
+  <ion-card>
+
+    <ion-card-header>
+      Documentación
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list no-lines>
+        <button ion-item (click)="toggleGroup(1)" [ngClass]="{active: isGroupShown(1)}">
+          <ion-icon name="text" item-start></ion-icon>
+          Textos
+        </button>
+
+        <div *ngIf="isGroupShown(1)">
+          <ion-item text-wrap text-justify *ngFor="let texto of textos;">
+            <h2 item-center>{{texto.descripcion_anexo}}</h2>
+            <p item-center>{{texto.fecha_incorporacion}}</p>
+          </ion-item>
+        </div>
+
+        <button ion-item (click)="toggleGroup(2)" [ngClass]="{active: isGroupShown(2)}">
+          <ion-icon name="document" item-start></ion-icon>
+          Documentos
+        </button>
+
+        <div *ngIf="isGroupShown(2)">
+          <ion-item text-wrap text-justify *ngFor="let documento of documentos;">
+            <h2>{{documento.ruta_anexo.split("/").pop()}}</h2>
+            <h3>{{documento.descripcion_anexo}}</h3>
+            <p item-center>{{documento.fecha_incorporacion}}</p>
+          </ion-item>
+        </div>
+
+        <button ion-item (click)="toggleGroup(3)" [ngClass]="{active: isGroupShown(3)}">
+          <ion-icon name="videocam" item-start></ion-icon>
+          Videos
+        </button>
+
+        <div *ngIf="isGroupShown(3)">
+          <ion-item text-wrap text-justify *ngFor="let video of videos;">
+            <h2>{{video.ruta_anexo.split("/").pop()}}</h2>
+            <h3>{{video.descripcion_anexo}}</h3>
+            <p item-center>{{video.fecha_incorporacion}}</p>
+          </ion-item>
+        </div>
+
+        <button ion-item (click)="toggleGroup(4)" [ngClass]="{active: isGroupShown(4)}">
+          <ion-icon name="camera" item-start></ion-icon>
+          Fotos
+        </button>
+
+        <div *ngIf="isGroupShown(4)">
+          <ion-item text-wrap text-justify *ngFor="let foto of fotos;" (click)="openImage(foto.ruta_anexo)">
+            <h2>{{foto.ruta_anexo.split("/").pop()}}</h2>
+            <h3>{{foto.descripcion_anexo}}</h3>
+            <p item-center>{{foto.fecha_incorporacion}}</p>
+          </ion-item>
+        </div>
+
+      </ion-list>
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>

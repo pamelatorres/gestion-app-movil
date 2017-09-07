@@ -1,6 +1,33 @@
 page-documentacion {
-
+  .bottom-margin{
+    margin-bottom: 0 !important;
+  }
 	.icon-padding{
-    	padding: 15px;
+  	padding: 15px;
 	}
+  .bottom-text-area{
+    //height: 30%;
+    bottom: 10%;
+    position: absolute;
+  }
+  .send-buttons{
+    bottom: 0;
+    position: absolute;
+  }
+  .camera-button{
+    height: 40px !important;
+    width: 45px;
+    display: block;
+  }
+  .send-button{
+    width: 100%;
+    height: 40px !important;
+  }
+  .lista-anexo{
+    height: 100% !important;
+  }
+  .fecha_anexo{
+    float: right;
+    margin: 10px;
+  }
 }

@@ -16,8 +16,31 @@
 </ion-header>
 
 
-<ion-content padding>
-  <p><b>{{titulo}}</b></p>
-  <p text-justify><i>{{this.detalle}}</i></p>
+<ion-content [style.background-color]="colorAlerta">
+
+  <div *ngIf="tipo != 'bitacora-detalle'" padding>
+    <p><b>{{titulo}}</b></p>
+    <p text-justify><i>{{this.detalle}}</i></p>
+  </div>
   <button *ngIf="puedeRevocar && !agendaRevocada" class="revocar-button" round ion-button (click)="revocarAlert()">Revocar Agenda</button>
+  <ion-list *ngIf="tipo == 'bitacora-detalle'" no-lines no-padding>
+    <ion-item [style.background-color]="colorAlerta" *ngFor="let detalle of detalles">
+      <ion-card no-padding>
+      
+        <ion-card-header>
+          <i>{{detalle.nombre_pers}} {{detalle.paterno_pers}} {{detalle.materno_pers}}</i>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <b>{{detalle.titulo}}</b>
+          <br>
+          <i>{{detalle.observacion}}</i>          
+        </ion-card-content>
+      
+      </ion-card>
+    </ion-item>
+  </ion-list>
+    <ion-fab right bottom>  
+     <button (click)="close()" ion-fab color="primary"><ion-icon name="close"></ion-icon></button>
+    </ion-fab>
 </ion-content>

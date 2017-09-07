@@ -1,3 +1,30 @@
 .page-bitacora{
+  .no-padding-items{
+    ion-item{
+      padding: 0px;
+    }
+  }
 
+  .expand-fab{
+    margin-top: -15px;
+  }
+
+  .res-title{
+    h3{
+      color: $dark-blue;
+      border-top: 1px solid;
+      border-color:#bdbdbd;
+      padding-top: 8px;
+    }
+  }
+
+  .res-list{
+    b{
+      color: $dark-blue;
+    }
+  }
+  .ion-card-header{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
