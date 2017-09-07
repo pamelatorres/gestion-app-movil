@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, PopoverController } from 'ionic-angular';
+import { IonicPage, 
+  NavController, 
+  NavParams, 
+  ModalController, 
+  PopoverController, 
+  ToastController
+} from 'ionic-angular';
 import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { UrlProvider } from '../../providers/url/url';
@@ -25,7 +31,8 @@ export class TareasPage {
     private storage:Storage,
     private url:UrlProvider,
     private modalCtrl:ModalController,
-    private popoverCtrl:PopoverController) {
+    private popoverCtrl:PopoverController,
+    private toastCtrl:ToastController) {
     this.storage.get('user')
       .then(user => {
         this.obtenerTareas(user.id_usuario);
@@ -55,5 +62,21 @@ export class TareasPage {
     popover.present({
       ev: myEvent
     });
+  }
+  verDetalle(tarea){
+    this.modalCtrl.create('BitacoraDetalleModalPage',{
+      detalle: tarea.detalle_tarea
+    }).present();
+  }
+  cerrarTarea(tarea){
+    this.navCtrl.push('CerrarTareaPage',{
+      tarea:tarea
+    });
+  }
+  presentToast(title) {
+    this.toastCtrl.create({
+      message:title,
+      duration: 3000
+    }).present();
   }
 }

@@ -23,6 +23,7 @@ export class CrearBitacoraPage {
 
   tareas:any;
   puedeCerrarBitacora:boolean;
+  bitacora:any;
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
@@ -31,12 +32,12 @@ export class CrearBitacoraPage {
     private http:Http,
     private url:UrlProvider,
     private loadCtrl:LoadingController) {
-    let bitacora = this.navParams.get('bitacora');
-    if(bitacora.observacion == null && bitacora.titulo)
+    this.bitacora = this.navParams.get('bitacora');
+    if(this.bitacora.observacion == null && this.bitacora.titulo)
       this.puedeCerrarBitacora = false;
     else
       this.puedeCerrarBitacora = true;
-    this.tareas = this.navParams.get('tareas').length;
+    this.tareas = this.navParams.get('tareas_pendientes');
   }
 
   ionViewDidLoad() {
@@ -46,7 +47,7 @@ export class CrearBitacoraPage {
   	this.navCtrl.push(ruta,{
       id_incidente: this.navParams.get('bitacora').id_incidente,
       id_bitacora: this.navParams.get('id_bitacora'),
-      bitacora: this.navParams.get('bitacora')
+      bitacora: this.bitacora
     });
   }
 
@@ -77,7 +78,7 @@ export class CrearBitacoraPage {
     loading.present();
     let data = {
       id_bitacora:this.navParams.get('id_bitacora'),
-      id_bitacora_derivacion: this.navParams.get('bitacora').id_bitacora_derivacion
+      id_bitacora_derivacion: this.bitacora.id_bitacora_derivacion
     };
     this.http.post(this.url.url + 'api/v1/CerrarBitacora', JSON.stringify(data))
     .subscribe(data => {

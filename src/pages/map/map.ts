@@ -190,8 +190,12 @@ export class MapPage {
           loading.dismiss();
           //this.presentToast('Incidente generado exitosamente');
           this.presentAlert();
+          let bitacora = {
+            color_alerta:'#fff'
+          };
           this.navCtrl.push('DocumentacionPage',{
-            id_incidente: data.json().r
+            id_incidente: data.json().r,
+            bitacora: bitacora
           }).then(() => {
               this.map.setClickable(true);
               this.clearOverlays();

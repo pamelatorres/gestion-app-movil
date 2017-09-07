@@ -16,44 +16,145 @@
 </ion-header>
 
 
-<ion-content padding text-center class="page-bitacora" [style.background-color]="bitacora.color_alerta">
-  <ion-card (click)="this.bitacora.observacion != null ? abrirDetalle() : false">
+<ion-content padding class="page-bitacora" [style.background-color]="bitacora.color_alerta">
+  <ion-card>
 <!--     <img src="img/nin-live.png"/>-->    
-    <ion-card-content no-padding style="padding:7px;">
-      <ion-card-title>
-        <h2 *ngIf="this.bitacora.titulo != null">
-          {{(this.bitacora.titulo | truncate: 15) + (this.bitacora.titulo.length > 15 ? '...' : '')}}
-        </h2>
-        <h3>{{bitacora.nombre_responsabilidad}}</h3>
-        </ion-card-title>
+    <ion-card-content style="padding:7px;">
+      <ion-card-title class="res-title">
+        <h2 text-center><b>{{bitacora.nombre_responsabilidad}}</b></h2>
+        <h3 *ngIf="this.bitacora.titulo != null">
+          <b>{{(this.bitacora.titulo | truncate: 15) + (this.bitacora.titulo.length > 15 ? '...' : '')}}</b>
+        </h3>
+      </ion-card-title>
       <p *ngIf="this.bitacora.observacion != null">
         {{(this.bitacora.observacion | truncate: 140) + (this.bitacora.observacion.length > 140 ? '...' : '')}}
       </p>
-      <button *ngIf="this.bitacora.observacion == null" (click)="irADetallarBitacora()" ion-button round full>Ingresar Descripción</button>
     </ion-card-content>
   </ion-card>
   <ion-card>
     <ion-card-header>
-      <h2><ion-icon margin-right (click)="abrirToast('Departamento responsable')" name="home"></ion-icon>{{bitacora.nombre_depto}}</h2>
-      <h2><ion-icon margin-right (click)="abrirToast('Responsable principal')" name="person"></ion-icon>{{responsablePrincipal}}</h2>
-      <br>
-      <p><i>{{this.bitacora.fecha_creacion | date: 'd'}} de {{this.bitacora.fecha_creacion | date: 'MMMM'}} del {{this.bitacora.fecha_creacion | date: 'y'}} a las {{this.bitacora.fecha_creacion | date: 'H:m'}}</i></p>
-      <p><i>Estado {{bitacora.nombre_estado}}</i></p>
-      <p><i>Nivel de alerta {{bitacora.nombre_nivel}}</i></p>
-      <p><i><ion-icon margin-right (click)="abrirToast('Responsable actual')" name="person"></ion-icon>{{responsableActual}}</i></p>
-      
+      <ion-item text-uppercase text-wrap no-padding item-left>
+        <p>
+        <ion-icon (click)="abrirToast('Departamento responsable')" name="home"></ion-icon>
+        <b> Departamento</b>
+        <br>
+        <i margin-left>{{bitacora.nombre_depto}}</i>
+        </p>
+      </ion-item>
+      <button ion-button icon-only item-right float-right (click)="desplegarLista(1)">
+        <ion-icon [name]="iconoLista1"></ion-icon>
+      </button>
+    </ion-card-header>
+    <ion-card-content *ngIf="verLista1" no-margin>
+      <ion-list class="res-list">
+
+        <ion-item text-uppercase text-wrap no-padding>
+          <p>
+            <ion-icon (click)="abrirToast('Responsable principal')" name="person"></ion-icon>
+            <b> Responsable principal</b>
+            <br>
+            <i margin-left>{{responsablePrincipal}}</i>
+          </p>
+        </ion-item>
+        <ion-item text-uppercase text-wrap no-padding>
+          <p>
+            <ion-icon name="calendar"></ion-icon>
+            <b> Fecha de inicio</b>
+            <br>
+            <i margin-left>{{this.bitacora.fecha_creacion | date: 'd'}} de {{this.bitacora.fecha_creacion | date: 'MMMM'}} del {{this.bitacora.fecha_creacion | date: 'y'}} a las {{this.bitacora.fecha_creacion | date: 'H:m'}}</i>
+          </p>
+        </ion-item>
+        <ion-item text-uppercase text-wrap no-padding>
+          <p>
+            <ion-icon name="alert"></ion-icon>
+            <b> Nivel de alerta</b>
+            <br>
+            <i margin-left>{{bitacora.nombre_nivel}}</i>
+          </p>
+        </ion-item>
+        <ion-item text-uppercase text-wrap no-padding>
+          <p>
+            <ion-icon name="navigate"></ion-icon>
+            <b> Estado</b>
+            <br>
+            <i margin-left>{{bitacora.nombre_estado}}</i>
+          </p>
+        </ion-item>
+      </ion-list>      
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <button ion-button icon-only item-right float-right (click)="desplegarLista(2)">
+        <ion-icon [name]="iconoLista2"></ion-icon>
+      </button>
+    </ion-card-header>
+    <ion-card-content *ngIf="verLista2">
+      <ion-list class="res-list">
+        <ion-item text-uppercase no-padding text-wrap>
+          <p>
+            <ion-icon name="person"></ion-icon>
+            <b> Responsable actual</b>
+            <br>
+            <i margin-left>{{responsableActual}}</i>
+          </p>
+        </ion-item>
+        <ion-item text-uppercase text-wrap no-padding>
+          <p>
+            <ion-icon name="calendar"></ion-icon>
+            <b> Fecha de inicio</b>
+            <br>
+            <i margin-left>{{this.bitacora.fecha_creacion | date: 'd'}} de {{fechaActual | date: 'MMMM'}} del {{fechaActual | date: 'y'}} a las {{fechaActual | date: 'H:m'}}</i>
+          </p>
+        </ion-item>
+        <ion-item text-uppercase text-wrap no-padding>
+          <p>
+            <ion-icon (click)="abrirToast('Departamento responsable')" name="home"></ion-icon>
+            <b> Departamento</b>
+            <br>
+            <i margin-left>{{departamentoActual}}</i>
+          </p>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>  
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <button ion-item no-padding text-uppercase text-wrap (click)="verProtocolo()">
+        <ion-icon name="archive" item-start></ion-icon>
+        <b>Ver protocolo</b>
+      </button>
+      <button ion-item no-padding text-uppercase text-wrap (click)="irA('DocumentacionPage')">
+        <ion-icon name="document" item-start></ion-icon>
+        <b>Documentar bitácora</b>
+      </button>
+      <button ion-item no-padding text-uppercase text-wrap (click)="abrirDetalle()">
+        <ion-icon name="document" item-start></ion-icon>
+        <b>Resumen solución bitácora</b>
+      </button>
+      <button ion-item no-padding text-uppercase text-wrap (click)="irA('BitacoraMapaPage')">
+        <ion-icon name="map" item-start></ion-icon>
+        <b>Ver incidente en mapa</b>
+      </button>
+    </ion-card-content>  
+  </ion-card>
+  <ion-card>
+
+    <ion-card-header *ngIf="this.bitacora.observacion == null">
+      <button (click)="irADetallarBitacora()" ion-button round full>Describir bitácora</button>
     </ion-card-header>
 
     <ion-card-content>
       <ion-list>
-        <button ion-item *ngIf="calculoDiasData.length > 1" (click)="toggleGroup(7)" [ngClass]="{active: isGroupShown(7)}">
+        <button ion-item no-padding text-uppercase text-wrap *ngIf="calculoDiasData.length > 1" (click)="toggleGroup(7)" [ngClass]="{active: isGroupShown(7)}">
           <ion-icon name="arrow-round-forward" item-start></ion-icon>
-          Derivaciones
+          <b>Derivaciones</b>
           <ion-badge item-end>{{calculoDiasData.length -1}}</ion-badge>
         </button>
 
         <div *ngIf="isGroupShown(7)">
-          <ion-item text-wrap text-justify *ngFor="let dias of  calculoDiasData;">
+          <ion-item text-wrap text-justify no-padding *ngFor="let dias of  calculoDiasData;">
             <p item-center><b>Responsable <br> {{dias.responsable}}</b></p>
             <p item-center><i>Departamento <br>{{dias.depto_responsable}}</i></p>
             <p item-center><i>Inicio {{dias.finicio_responsable}}</i></p>
@@ -63,101 +164,58 @@
           </ion-item>
         </div>
 
-        <button ion-item (click)="irA('AgendaPage')">
+        <button ion-item no-padding text-uppercase text-wrap *ngIf="tareas.length > 0" (click)="toggleGroup(6)" [ngClass]="{active: isGroupShown(6)}">
           <ion-icon name="list" item-start></ion-icon>
-          Ver agendas
+          <b>Tareas</b>
+          <ion-badge item-end>{{tareasPendientes}}</ion-badge>
         </button>
 
-        <button ion-item *ngIf="vbs.length > 0" (click)="toggleGroup(5)" [ngClass]="{active: isGroupShown(5)}">
+        <div *ngIf="isGroupShown(6)">
+          <ion-item text-wrap no-padding text-justify *ngFor="let tarea of tareas;">
+            <p item-center>Detalle: {{tarea.detalle_tarea}}</p>
+            <p item-center>Fecha incio: {{tarea.fecha_inicio_tarea}}</p>
+            <p item-center>Fecha termino: {{tarea.fecha_termino_tarea}}</p>
+            <p item-center *ngIf="tarea.estado_tarea == 1">
+              En proceso
+            </p>
+            <p item-center *ngIf="tarea.estado_tarea == 0">
+              {{tarea.realizacion_tarea == '1' ? 'Tarea realizada':'Tarea no realizada'}}
+            </p>
+            <p item-center *ngIf="tarea.estado_tarea == 0"> 
+              {{tarea.respuesta_tarea}}
+            </p>
+          </ion-item>
+        </div>
+
+        <button ion-item no-padding text-wrap text-uppercase *ngIf="vbs.length > 0" (click)="toggleGroup(5)" [ngClass]="{active: isGroupShown(5)}">
           <ion-icon name="checkmark" item-start></ion-icon>
-          Vistos buenos
+          <b>Vistos buenos</b>
           <ion-badge item-end>{{vbsPendientes}}</ion-badge>
         </button>
 
         <div *ngIf="isGroupShown(5)">
-          <ion-item text-wrap text-justify *ngFor="let visto of vbs;">
+          <ion-item text-wrap no-padding text-justify *ngFor="let visto of vbs;">
             <p item-center>Detalle <br>{{visto.detalle_vb}}</p>
             <p item-center *ngIf="visto.aprueba_vb">{{visto.aprueba_vb ? 'Aprobado' : 'Rechazado'}}</p>
             <p *ngIf="visto.monto_vb > 0" item-center>Monto ${{visto.monto_vb}}</p>
             <p item-center>{{visto.fecha_ingreso_vb}}</p>
           </ion-item>
         </div>
-
-        <button ion-item *ngIf="tareas.length > 0" (click)="toggleGroup(6)" [ngClass]="{active: isGroupShown(6)}">
-          <ion-icon name="list" item-start></ion-icon>
-          Tareas
-          <ion-badge item-end>{{tareasPendientes}}</ion-badge>
-        </button>
-
-        <div *ngIf="isGroupShown(6)">
-          <ion-item text-wrap text-justify *ngFor="let tarea of tareas;">
-            <p item-center>Detalle <br>{{tarea.detalle_tarea}}</p>
-            <p item-center>Fecha incio: {{tarea.fecha_inicio_tarea}}</p>
-            <p item-center>Fecha termino: {{tarea.fecha_termino_tarea}}</p>
-          </ion-item>
-        </div>
       </ion-list>
+
+      <button ion-item no-padding text-wrap text-uppercase (click)="irA('AgendaPage')" *ngIf="agendasPendientes > 0">
+        <ion-icon name="bookmark" item-start></ion-icon>
+        <b>Agendas</b>
+        <ion-badge item-end>{{agendasPendientes}}</ion-badge>
+      </button>
     </ion-card-content>
-
-    <ion-list>
-      <button ion-item (click)="toggleGroup(1)" [ngClass]="{active: isGroupShown(1)}">
-        <ion-icon name="text" item-start></ion-icon>
-        Textos
-      </button>
-
-      <div *ngIf="isGroupShown(1)">
-        <ion-item text-wrap text-justify *ngFor="let texto of textos;">
-          <h2 item-center>{{texto.descripcion_anexo}}</h2>
-          <p item-center>{{texto.fecha_incorporacion}}</p>
-        </ion-item>
-      </div>
-
-      <button ion-item (click)="toggleGroup(2)" [ngClass]="{active: isGroupShown(2)}">
-        <ion-icon name="document" item-start></ion-icon>
-        Documentos
-      </button>
-
-      <div *ngIf="isGroupShown(2)">
-        <ion-item text-wrap text-justify *ngFor="let documento of documentos;">
-          <h2>{{documento.ruta_anexo.split("/").pop()}}</h2>
-          <h3>{{documento.descripcion_anexo}}</h3>
-          <p item-center>{{documento.fecha_incorporacion}}</p>
-        </ion-item>
-      </div>
-
-      <button ion-item (click)="toggleGroup(3)" [ngClass]="{active: isGroupShown(3)}">
-        <ion-icon name="videocam" item-start></ion-icon>
-        Videos
-      </button>
-
-      <div *ngIf="isGroupShown(3)">
-        <ion-item text-wrap text-justify *ngFor="let video of videos;">
-          <h2>{{video.ruta_anexo.split("/").pop()}}</h2>
-          <h3>{{video.descripcion_anexo}}</h3>
-          <p item-center>{{video.fecha_incorporacion}}</p>
-        </ion-item>
-      </div>
-
-      <button ion-item (click)="toggleGroup(4)" [ngClass]="{active: isGroupShown(4)}">
-        <ion-icon name="camera" item-start></ion-icon>
-        Fotos
-      </button>
-
-      <div *ngIf="isGroupShown(4)">
-        <ion-item text-wrap text-justify *ngFor="let foto of fotos;" (click)="openImage(foto.ruta_anexo)">
-          <h2>{{foto.ruta_anexo.split("/").pop()}}</h2>
-          <h3>{{foto.descripcion_anexo}}</h3>
-          <p item-center>{{foto.fecha_incorporacion}}</p>
-        </ion-item>
-      </div>
-
-    </ion-list>
+  
   </ion-card>
   <ion-fab right top>
-    <button (click)="abrirToast('Número de días transcurridos')" ion-fab color="danger"><b>{{diasTotales}} </b> &nbsp;{{diasTotales == 1 ? 'Día':'Días'}}</button>
+    <button (click)="abrirToast('Número de días transcurridos')" ion-fab color="danger"><b>{{+diasTotales -1}} </b> &nbsp;{{+diasTotales -1 == 1 ? 'Día':'Días'}}</button>
   </ion-fab>
   <ion-fab right bottom>
     <button *ngIf="evaluacion != null" (click)="irAEvaluacion()" ion-fab color="secondary"><ion-icon md-name="date_range"></ion-icon></button>
-    <button *ngIf="evaluacion == null" [disabled]="this.bitacora.nombre_estado == 'Derivado' || tipo_accion" (click)="irACrearBitacora()" ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
+    <button *ngIf="evaluacion == null" [disabled]="this.bitacora.nombre_estado == 'Derivado' || tipo_accion || !responsable" (click)="irACrearBitacora()" ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>

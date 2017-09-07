@@ -26,11 +26,6 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 })
 export class BitacoraPage {
 
-  textos = Array();
-  docs:any;
-  fotos = Array();
-  videos = Array();
-  documentos = Array();
   incidente = 50;
   shownGroup = null;
   tareas:any = new Array;
@@ -43,8 +38,16 @@ export class BitacoraPage {
   diasTotales:any;
   responsablePrincipal:any;
   responsableActual:string;
+  departamentoActual:string;
+  fechaActual:string;
   tipo_accion:boolean;
   loading:any;
+  verLista1 = true;
+  verLista2 = true;
+  iconoLista1 = 'arrow-up';
+  iconoLista2 = 'arrow-up';
+  agendasPendientes = 0;
+  responsable:boolean = false;
 
 	now: string = new Date().toJSON();
   constructor(public navCtrl: NavController, 
@@ -60,12 +63,16 @@ export class BitacoraPage {
     private imageViewer:PhotoViewer,
     private loadCtrl:LoadingController) {
     this.bitacora = this.navParams.get('bitacora');
-    this.getDocs();
     this.getTareas();
     this.getVistosBuenos();
     this.evaluacion = this.navParams.get('id_evaluacion');
     this.calculoDias(this.bitacora.id_incidente);
     this.tipo_accion = this.navParams.get('tipo_accion') == '0';
+    this.cargarEventos();
+    this.storage.get('user')
+      .then(user => {
+        this.responsable = this.bitacora.id_usuario_responsable == user.id_usuario;
+      });
   }
 
   ionViewDidLoad() {
@@ -82,33 +89,6 @@ export class BitacoraPage {
   isGroupShown(group) {
     return this.shownGroup === group;
   };
-
-  getDocs(){
-    this.http.get(this.url.url + 'api/v1/documentacion/' + this.bitacora.id_incidente)
-      .subscribe(data => {
-          let datajson = data.json();
-          for(var i = datajson.length - 1; i >= 0; i--) {
-            let doc = datajson[i];
-            switch (doc.tipo_anexo) {
-              case "foto":
-                this.fotos.push(doc);
-                break;
-              case "video":
-                this.videos.push(doc);
-                break;
-              case "documento":
-                this.documentos.push(doc);
-                break;
-              case "texto":
-                this.textos.push(doc);
-              default:
-                // code...
-                break;
-            }
-          };
-      });
-  }
-
 
   getData = (data) => {
     return new Promise((resolve, reject) => {
@@ -132,29 +112,31 @@ export class BitacoraPage {
     this.loading.present();
     this.navCtrl.push(page,{
       id_bitacora:this.bitacora.id_bitacora,
-      bitacora: this.bitacora
+      bitacora: this.bitacora,
+      id_incidente:this.bitacora.id_incidente
     }).then(()=> {
       this.loading.dismiss();
     });
   }
 
   irACrearBitacora(){
-    let push = this.navCtrl.push('CrearBitacoraPage',{
+    this.navCtrl.push('CrearBitacoraPage',{
       id_bitacora:this.bitacora.id_bitacora,
       bitacora: this.bitacora,
-      tareas:this.tareas
+      tareas_pendientes:this.tareasPendientes
     });
   }
 
   abrirDetalle(){
     let detalleModal = this.modalCtrl.create('BitacoraDetalleModalPage',{
-      detalle: this.bitacora.observacion,
-      titulo: this.bitacora.titulo
+      id_incidente:this.bitacora.id_incidente,
+      tipo:'bitacora-detalle',
+      color_alerta:this.bitacora.color_alerta
     });
     detalleModal.present();
   }
   getTareas(){
-    this.http.get(this.url.url + 'api/v1/Tareas/' + this.bitacora.id_bitacora + '/1')
+    this.http.get(this.url.url + 'api/v1/Tareas/' + this.bitacora.id_incidente + '/1')
       .subscribe(data => {
         console.log(data);
         if (data.status >= 200) {
@@ -210,7 +192,9 @@ export class BitacoraPage {
         this.calculoDiasData = data.json();
         this.diasTotales = this.calculoDiasData[0].dias_totales;
         this.responsablePrincipal = this.calculoDiasData[0].responsable;
-        this.responsableActual = this.calculoDiasData[this.calculoDiasData.length - 1].responsable
+        this.responsableActual = this.calculoDiasData[this.calculoDiasData.length - 1].responsable;
+        this.departamentoActual = this.calculoDiasData[this.calculoDiasData.length -1].depto_responsable
+        this.fechaActual = this.calculoDiasData[this.calculoDiasData.length -1].finicio_responsable
       });
   }
   abrirToast(mensaje){
@@ -219,5 +203,47 @@ export class BitacoraPage {
 
   openImage(url){
     this.imageViewer.show(this.url.url + 'api/v1/ServeImages/' + encodeURIComponent(url).slice(0,-4));
+  }
+  verProtocolo(){
+    console.log(this.bitacora);
+    this.modalCtrl.create('BitacoraDetalleModalPage',{
+      detalle:this.bitacora.descripcion_manual,
+      bitacora:this.bitacora
+    }).present();
+  }
+  desplegarLista(lista){
+    if (lista == 1) {
+      this.verLista1 = !this.verLista1;
+      if (!this.verLista1) {
+        this.iconoLista1 = 'arrow-down';
+      }else{
+        this.iconoLista1 = 'arrow-up';
+      }
+    }else{
+      this.verLista2 = !this.verLista2;
+      if (!this.verLista2) {
+        this.iconoLista2 = 'arrow-down';
+      }else{
+        this.iconoLista2 = 'arrow-up';
+      }
+    }
+  }
+
+  cargarEventos(){
+    this.http.get(this.url.url + 'api/v1/Agenda/' + this.bitacora.id_incidente)
+      .subscribe(data => {
+        if (data.status == 200) {
+          data.json().forEach((agenda, index) => {
+            let revocada = agenda.estado_agenda == '0' ? '(Agenda revocada)' : '';
+            let title = agenda.titulo + ' ' + revocada;
+            let fechaInicio = new Date(agenda.fecha_inicio);
+            let fechaTermino = new Date(agenda.fecha_termino);
+            let ahora = new Date();
+            if (ahora < fechaTermino) {
+              this.agendasPendientes ++;
+            }
+          });
+        }
+      });
   }
 }

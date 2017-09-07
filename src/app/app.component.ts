@@ -94,11 +94,17 @@ export class MyApp {
                   texto = 'Se ha agregado un nuevo evento a la agenda';
                   datos = { tipo:'agenda_generada',id_bitacora:data.id_bitacora, tipo_accion:data.tipo_accion };
                   break;
-                default:
                 case "agenda_revocada":
                   titulo = 'Agenda revocada';
                   texto = 'Se ha revocado una agenda';
                   datos = { tipo:'agenda_revocada',id_bitacora:data.id_bitacora, tipo_accion:data.tipo_accion };
+                  break;
+                case "vb_cerrado":
+                  titulo = 'VB cerrado';
+                  texto = data.mensaje;
+                  datos = { tipo:'agenda_revocada'};
+                  break;                
+                default:
                   break;
               }
               this.localNotifications.schedule({

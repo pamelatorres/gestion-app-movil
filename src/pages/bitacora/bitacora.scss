@@ -1,3 +1,22 @@
 .page-bitacora{
+  .no-padding-items{
+    ion-item{
+      padding: 0px;
+    }
+  }
 
+  .res-title{
+    h3{
+      color: $dark-blue;
+      border-top: 1px solid;
+      border-color:#bdbdbd;
+      padding-top: 8px;
+    }
+  }
+
+  .res-list{
+    b{
+      color: $dark-blue;
+    }
+  }
 }

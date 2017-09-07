@@ -30,7 +30,7 @@ export class AgendaPage {
       private http:Http,
       private url:UrlProvider,
       private modalCtrl:ModalController) {
-    this.bitacora = this.navParams.get('id_bitacora');
+    this.bitacora = this.navParams.get('id_incidente');
   }
 
   ionViewDidLoad() {

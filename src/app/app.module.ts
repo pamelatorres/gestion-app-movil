@@ -31,7 +31,6 @@ import { Ionic2RatingModule } from 'ionic2-rating';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { AppVersion } from '@ionic-native/app-version';
 
-
 @NgModule({
   declarations: [
     MyApp

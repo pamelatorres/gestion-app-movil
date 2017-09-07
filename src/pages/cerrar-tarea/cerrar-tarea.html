@@ -1,0 +1,69 @@
+<!--
+  Generated template for the CerrarTareaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Cerrar Tarea</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-card>
+
+  <ion-card-header>
+    Detalles
+  </ion-card-header>
+
+  <ion-card-content text-center>
+    <i>Detalle de la tarea: {{tarea.detalle_tarea}}</i>
+    <br>
+    <i>Fecha de inicio: {{tarea.fecha_inicio_tarea}}</i>
+    <br>
+    <i>Fecha de termino: {{tarea.fecha_termino_tarea}}</i>
+  </ion-card-content>
+
+</ion-card>
+<ion-card>
+  <ion-card-content>
+    <form (ngSubmit)="cerrarTarea()" #cerrarTareaForm="ngForm">
+      <ion-row>
+        <ion-col>
+          <ion-list radio-group [(ngModel)]="aceptarString" name="aceptarString">
+            <ion-list-header>
+              ¿Se completó la tarea?
+            </ion-list-header>
+            <ion-item>
+              <ion-label>Si</ion-label>
+              <ion-radio value="si" (ionSelect)="onChange()"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>No</ion-label>
+              <ion-radio value="no" (ionSelect)="onChange()"></ion-radio>
+            </ion-item>
+          </ion-list>
+          <ion-list no-lines>
+            <ion-item>
+              <ion-label floating>
+                Respuesta
+              </ion-label>
+              <ion-textarea name="respuesta" [(ngModel)]="respuesta" required></ion-textarea>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col>
+          <button ion-button full type="submit" [disabled]="!cerrarTareaForm.form.valid">{{ aceptar ? 'Realizada' : 'No realizada' }}</button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-card-content>
+</ion-card>
+</ion-content>
