@@ -32,7 +32,6 @@
     </ion-card-content>
   </ion-card>
   <ion-card>
-<<<<<<< HEAD
    <ion-fab right edge class="expand-fab" (click)="desplegarLista(1)">
      <button ion-fab mini>
        <ion-icon [name]="iconoLista1"></ion-icon>
@@ -50,28 +49,6 @@
     </ion-card-header>
     <ion-card-content *ngIf="verLista1" no-margin>
       <ion-list class="res-list">
-        <ion-item text-uppercase text-wrap no-padding item-left>
-          <p>
-          <ion-icon (click)="abrirToast('Departamento responsable')" name="home"></ion-icon>
-          <b> Departamento</b>
-          <br>
-          <i margin-left>{{bitacora.nombre_depto}}</i>
-=======
-    <ion-card-header>
-      <ion-item text-uppercase text-wrap no-padding item-left>
-        <p>
-        <ion-icon (click)="abrirToast('Departamento responsable')" name="home"></ion-icon>
-        <b> Departamento</b>
-        <br>
-        <i margin-left>{{bitacora.nombre_depto}}</i>
-        </p>
-      </ion-item>
-      <button ion-button icon-only item-right float-right (click)="desplegarLista(1)">
-        <ion-icon [name]="iconoLista1"></ion-icon>
-      </button>
-    </ion-card-header>
-    <ion-card-content *ngIf="verLista1" no-margin>
-      <ion-list class="res-list">
 
         <ion-item text-uppercase text-wrap no-padding>
           <p>
@@ -79,7 +56,6 @@
             <b> Responsable principal</b>
             <br>
             <i margin-left>{{responsablePrincipal}}</i>
->>>>>>> master
           </p>
         </ion-item>
         <ion-item text-uppercase text-wrap no-padding>
@@ -111,7 +87,6 @@
   </ion-card>
 
   <ion-card>
-<<<<<<< HEAD
     <ion-fab right edge class="expand-fab" (click)="desplegarLista(2)">
       <button ion-fab mini>
         <ion-icon [name]="iconoLista2"></ion-icon>
@@ -129,14 +104,6 @@
     </ion-card-header>
     <ion-card-content *ngIf="verLista2">
       <ion-list class="res-list">
-=======
-    <ion-card-header>
-      <button ion-button icon-only item-right float-right (click)="desplegarLista(2)">
-        <ion-icon [name]="iconoLista2"></ion-icon>
-      </button>
-    </ion-card-header>
-    <ion-card-content *ngIf="verLista2">
-      <ion-list class="res-list">
         <ion-item text-uppercase no-padding text-wrap>
           <p>
             <ion-icon name="person"></ion-icon>
@@ -145,7 +112,6 @@
             <i margin-left>{{responsableActual}}</i>
           </p>
         </ion-item>
->>>>>>> master
         <ion-item text-uppercase text-wrap no-padding>
           <p>
             <ion-icon name="calendar"></ion-icon>

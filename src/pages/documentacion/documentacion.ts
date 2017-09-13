@@ -13,11 +13,7 @@ import { IonicPage,
 	Loading,
   ActionSheetController,
   Content,
-<<<<<<< HEAD
   ViewController } from 'ionic-angular';
-=======
-  Scroll } from 'ionic-angular';
->>>>>>> master
 import { File, FileEntry } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
 import { Http, Response } from '@angular/http';
@@ -51,10 +47,7 @@ export class DocumentacionPage {
   bitacora:any = {};
   mensaje:string = '';
   limit:number = 0;
-<<<<<<< HEAD
   incidenteCreado:boolean = false;
-=======
->>>>>>> master
 
   constructor(public navCtrl: NavController, 
   	public navParams: NavParams,
@@ -71,19 +64,12 @@ export class DocumentacionPage {
   	private mediaCapture:MediaCapture,
     private storage:Storage,
     private actionCtrl:ActionSheetController,
-<<<<<<< HEAD
     private imageViewer:PhotoViewer,
     private viewCtrl:ViewController) {
 
   	this.incidente = navParams.get('id_incidente');
     this.bitacora = navParams.get('bitacora');
     this.incidenteCreado = navParams.get('incidente_creado');
-=======
-    private imageViewer:PhotoViewer) {
-
-  	this.incidente = navParams.get('id_incidente');
-    this.bitacora = navParams.get('bitacora');
->>>>>>> master
     this.storage.get('user')
       .then(user => {
         this.user = user;
@@ -349,7 +335,6 @@ export class DocumentacionPage {
     console.log(url);
     this.imageViewer.show(url);
   }
-<<<<<<< HEAD
 
   ionViewCanLeave(){
     if (!this.incidenteCreado) {
@@ -372,6 +357,4 @@ export class DocumentacionPage {
       return r;
     }
   }
-=======
->>>>>>> master
 }

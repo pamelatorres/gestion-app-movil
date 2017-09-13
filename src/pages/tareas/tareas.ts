@@ -4,12 +4,8 @@ import { IonicPage,
   NavParams, 
   ModalController, 
   PopoverController, 
-<<<<<<< HEAD
   ToastController,
   LoadingController
-=======
-  ToastController
->>>>>>> master
 } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
@@ -37,12 +33,8 @@ export class TareasPage {
     private url:UrlProvider,
     private modalCtrl:ModalController,
     private popoverCtrl:PopoverController,
-<<<<<<< HEAD
     private toastCtrl:ToastController,
     private loading:LoadingController) {
-=======
-    private toastCtrl:ToastController) {
->>>>>>> master
     this.storage.get('user')
       .then(user => {
         this.obtenerTareas(user.id_usuario);
@@ -90,8 +82,6 @@ export class TareasPage {
       duration: 3000
     }).present();
   }
-<<<<<<< HEAD
-
   verBitacora(tarea){
     let loading = this.loading.create({
       content:'Por favor espere'
@@ -106,6 +96,4 @@ export class TareasPage {
         });
       });
   }
-=======
->>>>>>> master
 }

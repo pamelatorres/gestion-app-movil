@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { HomePage } from './home';
-
+import { EmojiPickerModule } from 'ng-emoji-picker';
 
 @NgModule({
   declarations: [
@@ -9,6 +9,7 @@ import { HomePage } from './home';
   ],
   imports: [
     IonicPageModule.forChild(HomePage),
+    EmojiPickerModule
   ],
   exports: [
     HomePage

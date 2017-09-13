@@ -30,6 +30,7 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { AppVersion } from '@ionic-native/app-version';
+import { EmojiPickerModule } from 'ng-emoji-picker';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AppVersion } from '@ionic-native/app-version';
     CalendarModule.forRoot(),
     MaterialIconsModule,
     IonicStorageModule.forRoot(),
-    Ionic2RatingModule
+    Ionic2RatingModule,
+    EmojiPickerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
